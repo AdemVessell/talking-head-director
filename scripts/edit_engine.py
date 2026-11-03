@@ -7,7 +7,8 @@ Run it through scripts/thd, which picks the Python that has the engine's package
   edit_engine.py transcribe RECORDING --out DIR    word transcript to write the plan from
   edit_engine.py autocut RECORDING --out DIR [--pause 0.35]   draft segments: fillers, repeats, pauses out
   edit_engine.py news RECORDING --out DIR [--look newsroom|lab] [--title T] [--headline H --source S --date D]
-                 [--image SHOT.png] [--stamp UNCONFIRMED]   autocut + a news-shaped plan (references/news-kit.md)
+                 [--image SHOT.png] [--stamp UNCONFIRMED] [--flat]   autocut + a news-shaped plan in the house
+                 colour journey (--flat: the rostrum camera; references/news-kit.md)
   edit_engine.py prep PLAN        extract ranges + films, face-track, force-align the kept lines
   edit_engine.py align PLAN       force-align the kept lines again (after moving in/out points)
   edit_engine.py inspect PLAN     energy and word timing around every cut, room-tone pick
@@ -38,6 +39,7 @@ def main():
     ap.add_argument("--pause", type=float, default=0.35, help="autocut: pauses longer than this become cuts")
     for opt in ("--look", "--title", "--headline", "--source", "--date", "--image", "--stamp"):
         ap.add_argument(opt, help="news: see references/news-kit.md")
+    ap.add_argument("--flat", action="store_true", help="news: the plain rostrum camera instead of the house colour journey")
     a = ap.parse_args()
     if a.cmd == "doctor":  # standard library only, so it can report missing packages
         from thd_engine import doctor
@@ -58,7 +60,7 @@ def main():
         return
     if a.cmd == "news":
         news.draft(a.target, a.out or (Path(a.target).with_suffix("").name + "_news"), a.look or "newsroom", a.title,
-                   a.headline, a.source, a.date, a.image, a.stamp, a.pause)
+                   a.headline, a.source, a.date, a.image, a.stamp, a.pause, a.flat)
         return
     plan = Plan.load(a.target)
     if a.cmd == "prep":

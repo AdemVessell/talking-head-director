@@ -1,7 +1,10 @@
-# Journeys: the perspective camera and plane changes (TEST)
+# Journeys: the perspective camera and plane changes (house look)
 
-Status: a test, 2026-11-03. The first cut is `Arkhē Claude Lab/TALKING_HEAD_NEXT/songwriting-journey`,
-the approved songwriting edit re-shot with a journey. It is not house style until Adem says so.
+Status: house style since 2026-11-04. Adem saw the colour and monochrome test cuts and picked
+colour journeys with diorama scenes ([dioramas.md](dioramas.md)) as the look new videos start from.
+The cuts are in `Arkhē Claude Lab/TALKING_HEAD_NEXT/`: `songwriting-journey` (colour, the
+approved songwriting edit re-shot), `songwriting-journey-mono`, and `hologram-diorama-colour`.
+`thd news` drafts in this look.
 
 ## Why
 
@@ -78,9 +81,10 @@ samples so fast whips blur instead of stepping.
 - `dof` blurs by depth from the focus plane, at most 9 px at 1080 wide.
 - `pulses` are quick punch-ins that ease back (+12 %, 70 ms in, 160 ms decay).
 - `mono: true` turns the stage grey; the presenter print, films and the vermilion ink keep their colour.
-  Scene shots ([dioramas.md](dioramas.md)) keep their own palette.
+  Scene shots ([dioramas.md](dioramas.md)) keep their own palette. Mono is an alternative look, not the
+  default.
 
-## Grammar from the first test
+## Grammar from the first tests
 
 - **Frame 0 is the thumbnail.** `descend` must start close: the face and title still read.
 - **Plane changes are punctuation.** Use them on at most about half the shot changes, and keep
@@ -95,5 +99,6 @@ samples so fast whips blur instead of stepping.
 ## Cost
 
 A journey render costs more than a flat one: perspective warps everywhere, depth of field on
-tilted views, and 14-28 shutter samples inside plane changes. Measured on the songwriting test:
-see that folder's NOTE.md.
+tilted views, and 14-28 shutter samples inside plane changes. Measured 2026-11-04: the 19 s
+hologram cut (two scenes, three plane changes) runs `thd all` in 104 s, ASR included, with other
+work on the machine.

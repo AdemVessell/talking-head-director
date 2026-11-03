@@ -113,23 +113,38 @@ agent, so:
 story segments, a treatment, documents that write, type or print themselves on
 his words, one line per shot (the engine builds layouts, camera moves and
 jump-cut reframes), captions, automatic sound, render and QA. Built for 1-4
-minute videos: a 45 s edit renders, assembles and audits in under 4 minutes.
+minute videos: a 45 s flat edit renders, assembles and audits in under 4
+minutes; journeys cost more.
 Read [edit-engine.md](references/edit-engine.md), then copy a worked example:
-`examples/songwriting-studio/plan.yaml` (the current reference: studio
-treatment, shots, a lyric page written as he says it),
+`examples/hologram-diorama/` (the house look: a colour journey with two
+diorama scenes, their Blender scripts beside the plan),
+`examples/songwriting-journey/plan.yaml` (the house look over papers: a lyric
+page written as he says it, plane changes),
+`examples/songwriting-studio/plan.yaml` (the same edit on the flat camera),
 `examples/rode-holder-test/plan.yaml` (product test, hand-placed layouts) or
 `examples/grok-topup-v2/plan.yaml` (money receipts, 3D film wall).
-News shorts for X: `thd news` drafts the plan, screenshot prints carry the real
-source, and `thd xcheck` checks it before posting; read [news-kit.md](references/news-kit.md).
-Journeys (a TEST until Adem approves): `journey:` swaps the rostrum camera for a perspective camera
-(per-shot `view:` descend, lean, glide, low) with plane changes between shots (`via:` fall, dive,
-travel, flip), and `mono: true` gives a grey diorama stage with one accent; read
-[journeys.md](references/journeys.md), example `examples/songwriting-journey/plan.yaml`.
-Dioramas (a TEST): animated Blender scenes under his voice as `shot: scene`, built with
-`scripts/diorama/kit.py` and keyed to his words; read [dioramas.md](references/dioramas.md).
-`autocut` -> choose the story -> treatment, documents, shots -> `prep` ->
-`inspect` (fix every `!`) -> `edit` -> `holds` (look at every silent hold) ->
-`stills` -> `all`.
+
+**The house look (Adem's pick, 2026-11-04): colour journeys with diorama
+scenes.** New videos start from it, not from the flat camera:
+- **A colour journey.** `journey:` swaps the rostrum camera for a perspective
+  camera. It descends onto him on frame 0 (the thumbnail), and papers being
+  read lean. Plane changes (`via:` dive, fall, travel, flip), each with its
+  whoosh or swish, punctuate at most about half the shot changes, with hard
+  cuts between. Read [journeys.md](references/journeys.md).
+- **A diorama for the story's physical thing.** Where the story turns on an
+  object, a mechanism or a place, give it an animated Blender scene under his
+  voice as `shot: scene`, built with `scripts/diorama/kit.py` and keyed to his
+  words. A pure opinion take can do without one; never add a generic scene to
+  fill the slot. Read [dioramas.md](references/dioramas.md).
+- **Mono is an alternative, not the default.** `mono: true` (a grey stage with
+  one accent) is a deliberate choice for a piece that calls for it.
+
+News shorts for X: `thd news` drafts the plan in the house look (`--flat` for
+the rostrum camera), screenshot prints carry the real source, and
+`thd xcheck` checks it before posting; read [news-kit.md](references/news-kit.md).
+`autocut` -> choose the story -> treatment, documents, shots, journey ->
+`prep` -> `inspect` (fix every `!`) -> `edit` -> diorama scenes, timed from
+the edit -> `holds` (look at every silent hold) -> `stills` -> `all`.
 
 ## Scripts
 

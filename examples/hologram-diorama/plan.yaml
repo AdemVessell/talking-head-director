@@ -1,0 +1,58 @@
+# THE HOUSE LOOK (Adem's pick, 2026-11-04): a colour journey with diorama scenes. His "HOLOGRAM IRL" take
+# (a TV he took apart; its Fresnel lens hung up behind him). Animated Blender scenes carry the lines he says
+# in front of the lens, his own lens footage carries the payoff, and paper and plane changes stitch it together.
+# Story: the payoff as the hook -> the TV comes apart into its layers -> the Fresnel lens, hung up ->
+# through the lens: "can you see me?" -> "it's a practical effect."
+# Render the scenes first; the .mov files are not in the repository (about 7 min for both, from this folder):
+#   ../../scripts/diorama/render_scene.sh scenes/tv_layers.py scenes/tv_layers.json scenes/tv_layers.mov 23.976
+#   ../../scripts/diorama/render_scene.sh scenes/fresnel.py scenes/fresnel.json scenes/fresnel.mov 23.976
+# The scene times (scenes/*.json) come from this edit's timeline: re-export them if the cut changes.
+name: hologram-diorama
+work_dir: ~/Movies/thd-work/hologram-diorama
+source: "/Users/stevenson/Desktop/HOLOGRAM IRL AR VR #shorts #practicaleffects.mp4"
+fps: 23.976
+tail: 0.9
+treatment: evidence        # charcoal desk
+face: {x: 0.5, eye: 0.36, width: 0.32}   # behind the lens there is no detectable face, only his prismatic figure
+
+segments:   # cut points sit in the real gaps inspect found; lines that run on stay whole
+  - {id: Q, in: 42.20, out: 43.90, air: 3, text: "It almost looks like a hologram,"}
+  - {id: B, in: 1.25, out: 8.54, air: 1, text: "I had mentioned previously that I took apart my television because it broke and now I use various aspects of the layers. Well, behind me"}
+  - {id: D, in: 9.30, out: 12.64, air: 4, text: "hung up is one of the Fresnel type lens things."}
+  - {id: IJ, in: 24.02, out: 26.10, air: 3, text: "Hey, check that out. Can you see me?"}
+  - {id: LM, in: 27.92, out: 31.155, air: 0, text: "So it's kind of like an effect in real life. It's a practical effect."}
+
+documents:
+  title:
+    kind: sticky
+    lines: ["h:c:HOLOGRAM", "h:c:IRL"]
+    appear: 0
+  effect:
+    kind: sticky
+    lines: ["c:PRACTICAL", "c:EFFECT"]
+    slap: "LM.w:practical"
+
+journey:
+  dark: 0.35               # the colour journey's lit stage
+  fog: 0.9
+  dof: 0.8
+  pulses: ["Q.w:hologram,", "IJ.w:see"]
+
+shots:
+  - {at: 0, shot: face, size: P, docs: [{doc: title, slot: br}], snap: true, view: descend}   # the effect itself
+  - {at: "B.pin", shot: scene, scene: scenes/tv_layers.mov, via: dive}     # the television comes apart into its layers
+  - {at: "B.w:Well,-2f", shot: scene, scene: scenes/fresnel.mov, via: fall}   # "well, behind me": the Fresnel lens, hung up
+  - {at: "IJ.pin", shot: face, size: P, via: dive}                         # through the lens: "can you see me?"
+  - {at: "LM.pin", shot: face, size: P, move: push, docs: [{doc: effect, slot: br}]}   # an effect in real life: a practical effect
+
+sfx:
+  - {kit: whoosh, at: "B.pin", db: -21, pitch: -2}
+  - {kit: knock, at: "B.w:broke", db: -20}
+  - {kit: flutter, at: "B.w:layers.-0.1", db: -17}
+  - {kit: whoosh, at: "B.w:Well,-2f", db: -21, pitch: -4}
+  - {kit: sub, at: "D.w:Fresnel", db: -22}
+  - {kit: whoosh, at: "IJ.pin", db: -21, pitch: -2}
+
+mix: {voice_chain: light, voice_lufs: -16, lufs: -14, fade_out: ["END-0.30", "END-0.12"]}
+end: {burn: ["END-0.34", "END-0.22"]}
+finish: medium

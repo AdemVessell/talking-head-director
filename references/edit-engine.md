@@ -6,15 +6,21 @@ minute, so run it before and after any engine change. News shorts for X:
 `thd news` drafts a news-shaped plan and `thd xcheck` (also the last step of
 `thd all`) checks it before posting; see [news-kit.md](news-kit.md).
 `scripts/edit_engine.py` turns a plan (YAML or JSON) into a finished vertical
-edit: story cut, rostrum camera over physical paper on a desk surface,
+edit: story cut, a camera over physical paper on a desk surface (in the
+house look, a perspective journey camera with plane changes: [journeys.md](journeys.md)),
 documents that write, type or print themselves on his words, word-timed
 captions, designed sound, and a QA report. Worked examples, copy the method,
 never the facts:
 
-- `examples/songwriting-studio/plan.yaml`: the current reference. Studio
-  treatment, shot templates, a lyric page that writes itself as he says it,
-  autocut draft, automatic sound. 45 s from a 77-line plan (the hand-placed
-  RØDE plan needed 155 lines for 27 s).
+- `examples/hologram-diorama/`: the house look (2026-11-04). A colour
+  journey with two Blender diorama scenes (`shot: scene`), their scripts
+  and word times beside the plan.
+- `examples/songwriting-journey/plan.yaml`: the house look over papers.
+  Views, plane changes and pulses on the songwriting edit.
+- `examples/songwriting-studio/plan.yaml`: the same edit on the flat
+  camera. Studio treatment, shot templates, a lyric page that writes itself
+  as he says it, autocut draft, automatic sound. 45 s from a 77-line plan
+  (the hand-placed RØDE plan needed 155 lines for 27 s).
 - `examples/rode-holder-test/plan.yaml`: product test with a measured result,
   hand-placed layouts and beats (the long way), 23.976 fps download.
 - `examples/grok-topup-v2/plan.yaml`: money receipts and a 3D film wall, the
@@ -70,7 +76,8 @@ face: center                  # optional: no face detection (screen recordings, 
 segments:                     # the story, in edit order (source seconds)
   - {id: A, in: 0.64, out: 2.04, air: 4, text: "verbatim words", display: "display form"}
 documents: {lyric: {kind: note, lines: [...], cues: {...}, marker: {...}}}
-shots: [{at: "B.pin", shot: doc, doc: lyric}, ...]
+journey: {focal: 1.15, dark: 0.35, fog: 0.9, dof: 0.8, pulse: 0.12, pulses: ["B.w:bones"]}   # the house look
+shots: [{at: 0, shot: face, size: P, view: descend}, {at: "B.pin", shot: doc, doc: lyric, via: dive, view: lean}, ...]
 films: {name: {video: path | self, from: 1.4, to: 9.8}}
 labels: {mywork: {text: MY OWN 3D WORK}}
 captions: {groups: [...], hide: [...]}       # optional; automatic by default
@@ -158,7 +165,7 @@ the camera, and writes what it built to `work/review/shots.yaml`.
 
 Any shot: `snap: true` (6-frame snap in), `punch: "C.w:bones"` (14% closer
 on the word), `move: push | pull | drift | hold`, `rot`, `board`, `light`,
-`surface`, `name`. A paper with no arrival cue slaps in 0.2 s into its first
+`surface`, `name`; in a journey plan also `view:` and `via:` ([journeys.md](journeys.md)). A paper with no arrival cue slaps in 0.2 s into its first
 shot (receipts and printouts drop). Inside face and split shots every jump
 cut between takes switches the framing (13% closer, then back), so no jump
 cut lands on a held frame (`jumps: false` to turn it off). Captions are
@@ -223,7 +230,8 @@ A 45 s plan: autocut 2 s (transcript cached), prep about 70 s, stills about
 0.3 s a frame, `all` about 3.7 min including the ASR check. A full frame
 renders in about 140 ms (more while motion blur is on); `render --proof`
 renders half size without blur for timing checks. A 4-minute video is about
-5x that.
+5x that. Journey plans cost more: the 19 s hologram cut runs `all` in 104 s
+with other work on the machine ([journeys.md](journeys.md)).
 
 ## Gotchas
 

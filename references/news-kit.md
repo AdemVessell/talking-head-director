@@ -29,7 +29,7 @@ The X check · Accuracy rules · Recipes
 ```bash
 thd news RECORDING --out DIR --title "GPT-6" \
     --headline "the headline, verbatim" --source "The Verge" --date "Nov 3" \
-    [--image ~/Desktop/headline.png] [--stamp REPORTED] [--look newsroom|lab]
+    [--image ~/Desktop/headline.png] [--stamp REPORTED] [--look newsroom|lab] [--flat]
 thd prep DIR/plan.yaml
 thd inspect DIR/plan.yaml      # fix every !
 thd all DIR/plan.yaml          # ... audit, then the X check
@@ -43,6 +43,16 @@ thd all DIR/plan.yaml          # ... audit, then the X check
 - **Take:** face W.
 - **Then:** split (him and the evidence), face P and face W, alternating.
 - **Last line:** the desk with every paper.
+
+It drafts in the house look, a colour journey ([journeys.md](journeys.md)):
+- **The camera:** the first frame descends onto him and the evidence leans.
+- **Plane changes:** a dive into the evidence, a travel to the desk and a
+  fall back to his take, each with its own sound, on at most half the shot
+  changes.
+- **Your additions:** pulses on the words that land, and a diorama scene
+  when the story has a physical thing at its centre ([dioramas.md](dioramas.md)).
+
+`--flat` drafts the rostrum camera instead.
 
 The voice chain is `full`, which suits his raw recordings; use `light` for
 downloads. The plan ends with a film burn.

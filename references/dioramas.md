@@ -1,12 +1,25 @@
-# Dioramas: animated scene shots from Blender (TEST)
+# Dioramas: animated scene shots from Blender (house look)
 
-Status: a test, 2026-11-03. The first proof is `Arkhē Claude Lab/TALKING_HEAD_NEXT/hologram-diorama`.
-It is not house style until Adem says so.
+Status: house style since 2026-11-04, with colour journeys ([journeys.md](journeys.md)). The worked
+example is `examples/hologram-diorama/`: the plan and both scene scripts. Its renders are in
+`Arkhē Claude Lab/TALKING_HEAD_NEXT/`: `hologram-diorama-colour` (the house look) and
+`hologram-diorama` (the mono original).
 
 This is the Sam's POV format: animated diorama scenes carry the lines while his voice runs over
 them, and his own footage carries the payoff. A scene is a full-frame clip rendered in Blender,
 keyed to his words, and placed in the plan as `shot: scene`. Captions, the finish, sound and
 plane changes (`via:`) all work on it like any other shot.
+
+## When a video gets a scene
+
+- **The thing the story turns on:** an object he took apart, a mechanism, a place, a chain of
+  cause and effect. One or two scenes in a short, each about 4-7 s, entered and left by plane
+  changes.
+- **His footage carries the payoff.** The scene explains; his own shot proves it.
+- **A pure opinion take can do without one.** Never add a generic scene to fill the slot: plain
+  CGI fails (SKILL.md, standing taste).
+- **Budget the time.** Each topic needs its own scene design (the kit and the grammar carry over;
+  the props do not yet), and a 6 s scene renders in about 4-7 minutes at full size.
 
 ## Making one
 

@@ -2,7 +2,7 @@
 
   thd news RECORDING --out DIR [--look newsroom|lab] [--title "AI NEWS"]
            [--headline "the verbatim headline" --source "The Verge" --date "Nov 3"] [--image shot.png]
-           [--stamp REPORTED|UNCONFIRMED|CONFIRMED]
+           [--stamp REPORTED|UNCONFIRMED|CONFIRMED] [--flat]
 
 Runs autocut, then writes DIR/plan.yaml in the news shape, one shot per kept line:
   0          his face with a title sticky: the first frame is the thumbnail
@@ -12,6 +12,10 @@ Runs autocut, then writes DIR/plan.yaml in the news shape, one shot per kept lin
   take       a wider face for his take
   then       split (him and the evidence) / face P / face W, alternating
   last line  the desk: every paper
+It is drafted in the house look (Adem's pick, 2026-11-04), a colour journey: the camera descends
+onto him on frame 0, papers being read lean, and plane changes with their own air dive into the
+evidence, travel to the desk and fall back to his take, on at most half the shot changes
+(references/journeys.md). --flat drafts the plain rostrum camera instead.
 The draft renders as it stands. The editor's work is the story (reorder, drop, merge), the
 papers (his words; headlines verbatim) and the stamps. Nothing here writes a claim: the
 headline and the source come from the command line, everything else from his transcript.
@@ -22,6 +26,9 @@ import yaml
 from . import autocut
 from .timeline import norm
 
+JOURNEY = {"focal": 1.15, "dark": 0.35, "fog": 0.9, "dof": 0.8, "pulse": 0.12, "pulses": []}
+PLANE_SFX = {"dive": {"kit": "whoosh", "db": -21, "pitch": -2}, "fall": {"kit": "whoosh", "db": -21, "pitch": -4},
+             "travel": {"kit": "swish", "db": -20}, "flip": {"kit": "swish_short", "db": -19}}
 STOP = {"a", "an", "the", "of", "to", "in", "on", "for", "and", "or", "is", "are", "was", "were", "be", "it", "its",
         "at", "by", "with", "as", "from", "this", "that", "new", "says", "after", "over"}
 
@@ -56,7 +63,7 @@ def headline_lines(headline, label):
 
 
 def draft(recording, out, look="newsroom", title=None, headline=None, source=None, date=None, image=None,
-          stamp=None, pause=0.35):
+          stamp=None, pause=0.35, flat=False):
     if look not in ("newsroom", "lab"):
         raise SystemExit("--look is newsroom (kraft desk, clippings) or lab (linen desk, printouts)")
     if (headline or image) and not source:
@@ -101,9 +108,27 @@ def draft(recording, out, look="newsroom", title=None, headline=None, source=Non
         else:
             by[i] = before[kb % len(before)]; kb += 1
     shots = [{"at": 0, "shot": "face", "size": "P", "docs": [{"doc": "title", "slot": "br"}], "snap": True}]
-    shots += [dict({"at": f"{ids[i]}.pin"}, **by[i]) for i in sorted(by)]
+    shots += [dict({"at": f"{ids[i]}.pin"}, **by[i]) for i in sorted(by)]   # shots[i] is line i
+    sfx, moved = [], []
+    if not flat:  # the house colour journey
+        shots[0]["view"] = "descend"
+        for s in shots[1:]:
+            if s["shot"] == "doc":
+                s["view"] = "lean"   # a paper being read stays near flat
+        moves = []   # plane changes are punctuation: the strongest first, at most about half the shot changes
+        if E is not None:
+            moves.append((E, "dive"))   # into the evidence
+        if n > 2 and shots[n - 1]["shot"] == "desk":
+            shots[n - 1]["view"] = "low"; moves.append((n - 1, "travel"))   # across to the whole desk
+        if E is not None and take < n - 1 and shots[take]["shot"] == "face":
+            moves.append((take, "fall"))   # the evidence falls away: his take
+        for i, via in moves[:max(1, n // 2)]:
+            shots[i]["via"] = via; moved.append(f"{via} at {shots[i]['at']}")
+            sfx.append(dict({"kit": PLANE_SFX[via]["kit"], "at": shots[i]["at"]},
+                            **{k: v for k, v in PLANE_SFX[via].items() if k != "kit"}))
     plan = {"name": out.name, "work_dir": str(out / "work"), "source": base["source"], "fps": base["fps"], "tail": 0.9,
-            "treatment": look, "segments": base["segments"], "documents": docs, "shots": shots,
+            "treatment": look, "segments": base["segments"], "documents": docs,
+            **({} if flat else {"journey": dict(JOURNEY)}), "shots": shots, **({"sfx": sfx} if sfx else {}),
             "mix": {"voice_chain": "full", "voice_lufs": -16, "lufs": -14, "fade_out": ["END-0.30", "END-0.12"]},
             "end": {"burn": ["END-0.34", "END-0.22"]}, "finish": "medium"}
     late = E is not None and E > max(2, n // 3)
@@ -114,6 +139,10 @@ def draft(recording, out, look="newsroom", title=None, headline=None, source=Non
             (f"# Evidence on {ids[E]}: {segs[E]['text'][:80]!r}" if E is not None
              else "# No evidence paper: add one with --image or --headline (and --source)"),
             *([f"# The news is stated late (line {E + 1} of {n}): consider moving {ids[E]} up to the hook."] if late else []),
+            *(["# Look: flat (the rostrum camera, --flat)."] if flat else
+              ["# Look: the house colour journey (references/journeys.md). The camera descends onto him; plane changes:",
+               f"#   {', '.join(moved) or 'none'}, hard cuts between. Add pulses on the words that land, and give the",
+               "#   story's central thing a diorama scene (references/dioramas.md)."]),
             "# Renders as it stands: thd prep plan.yaml, thd inspect plan.yaml (fix every !), thd all plan.yaml.",
             "# Before posting (thd xcheck checks the starred lines):",
             "#    - Story: hook first (the news in one line), then the source, his take, why it matters, the verdict.",
@@ -126,5 +155,6 @@ def draft(recording, out, look="newsroom", title=None, headline=None, source=Non
     path = out / "plan.yaml"
     path.write_text("\n".join(head) + "\n" + yaml.safe_dump(plan, sort_keys=False, default_flow_style=None, width=120,
                                                           allow_unicode=True))
-    print(f"news plan -> {path}  ({n} lines, evidence on {ids[E] if E is not None else 'none'}, {len(shots)} shots)")
+    print(f"news plan -> {path}  ({n} lines, evidence on {ids[E] if E is not None else 'none'}, {len(shots)} shots, "
+          f"{'flat' if flat else 'colour journey'})")
     return path
