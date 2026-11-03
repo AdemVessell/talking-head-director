@@ -37,6 +37,7 @@ SOUNDS = {
     "printout": dict(enter="flutter", land="paper_slap", reveal="printer", mark="pencil"),
     "index": dict(enter="paper_slap", reveal="typewriter", mark="pencil"),
     "staff": dict(enter="paper_slap", reveal="pencil", mark="pencil"),
+    "screenshot": dict(enter="paper_slap", reveal=None, mark="marker"),
 }
 
 

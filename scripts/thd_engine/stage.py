@@ -227,10 +227,16 @@ class Doc:
 
 
 def draw_marker(rgb, m, prog, lines):
-    """Vermilion felt-tip ellipse around document lines a..b, wobbly, drawn on twos."""
-    a, b = lines
-    y0 = m["lines"][a]["y"] - 8; y1 = m["lines"][b]["y"] + m["lines"][b]["h"] + 4
-    cx, cy, rx, ry = m["w"] / 2 + 2, (y0 + y1) / 2, m["w"] / 2 - 10, (y1 - y0) / 2 + 26
+    """Vermilion felt-tip ellipse around document lines a..b (on a screenshot, around ("box", x0, y0,
+    x1, y1): fractions of the image), wobbly, drawn on twos."""
+    if lines[0] == "box":
+        ix, iy, iw, ih = m["image"]; x0, y0, x1, y1 = lines[1:]
+        cx, cy = ix + (x0 + x1) / 2 * iw, iy + (y0 + y1) / 2 * ih
+        rx, ry = (x1 - x0) / 2 * iw * 1.08 + 18, (y1 - y0) / 2 * ih + 24
+    else:
+        a, b = lines
+        y0 = m["lines"][a]["y"] - 8; y1 = m["lines"][b]["y"] + m["lines"][b]["h"] + 4
+        cx, cy, rx, ry = m["w"] / 2 + 2, (y0 + y1) / 2, m["w"] / 2 - 10, (y1 - y0) / 2 + 26
     rng = np.random.default_rng(4)
     n = 140; total = 2 * math.pi * 1.08
     th = -math.pi * 0.62 + np.linspace(0, total * prog, max(2, int(n * prog)))

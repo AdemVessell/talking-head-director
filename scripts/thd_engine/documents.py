@@ -10,6 +10,8 @@ choose the document the video's subject would really produce (treatments.py).
   printout   tractor-feed printout    tech, AI, code, logs, prompts
   index      index card               definitions, steps, section titles
   staff      music manuscript         melody, music theory (staves, notes, lyric under each)
+  screenshot photo print of a REAL     news: the headline, post or page he is reacting to
+             screenshot               (`image:`, `crop:`, `source:`; see screenshot())
 
 Line specs (one string per line):
   "l:TEXT" "c:TEXT" "r:TEXT"   body text, aligned        "h:TEXT" "h:c:TEXT"   headline
@@ -67,6 +69,9 @@ KINDS = {
     "staff": dict(w=920, mx=64, paper=(242, 236, 221), grain=0.014, fibres=0.03, body="hand", size=54, lh=150,
                   head="hand", head_size=92, dsize=100, dlh=130, ink=(30, 30, 36), edge="straight", deco="staff",
                   reveal="write", top=90, bottom=70, dy=30, creases=1, tilt=0.4),
+    "screenshot": dict(w=1000, mx=40, paper=(246, 244, 240), grain=0.008, fibres=0.01, body="typewriter", size=40, lh=64,
+                       head="typewriter_bold", head_size=48, dsize=48, dlh=64, ink=(46, 44, 40), edge="straight",
+                       deco=None, reveal="ink", top=40, bottom=40, creases=0),
 }
 HANDWRITTEN = {"note", "sticky", "staff"}
 _F = {}
@@ -351,11 +356,11 @@ def _deco(K, kind, pap, metas, h):
     return pap * (1 - amt[..., None]) + lay
 
 
-def document(kind, lines, seed, audio=None, sr=None, wave_ref=1.0):
+def document(kind, lines, seed, audio=None, sr=None, wave_ref=1.0, K=None):
     """Returns (paper RGBA uint8, [(ink RGBA uint8, accent RGBA uint8 or None)], meta)."""
     if kind not in KINDS:
         raise SystemExit(f"unknown document kind {kind!r}; one of {sorted(KINDS)}")
-    K = KINDS[kind]; W = K["w"]
+    K = K or KINDS[kind]; W = K["w"]
     rng = np.random.default_rng(seed)
     metas, y = [], K["top"]
     for i, spec in enumerate(lines):
@@ -413,3 +418,33 @@ def document(kind, lines, seed, audio=None, sr=None, wave_ref=1.0):
         imgs.append((ink, ac))
     paper = np.dstack([np.clip(pap, 0, 255), alpha * 255]).astype(np.uint8)
     return paper, imgs, {"kind": kind, "w": W, "h": h, "lines": metas, "body_end": h - teeth, "reveal": K["reveal"]}
+
+
+def screenshot(r, seed):
+    """A REAL screenshot as a photo print: the image (r["image"], cropped by r["crop"] = [x0, y0, x1,
+    y1] fractions) on matte stock with a white border, its source (r["source"]) typed on the deep
+    bottom edge. Line 0 is the image: stamps land on it and `marker: {box: [x0, y0, x1, y1]}` circles
+    part of it. Line 1 is the source. Returns what document() returns. Never feed it a post or a
+    headline rebuilt to look real: the print is evidence, so the picture must be the real one."""
+    img = Image.open(r["image"]).convert("RGB")
+    if r.get("crop"):
+        x0, y0, x1, y1 = (float(v) for v in r["crop"]); w0, h0 = img.size
+        img = img.crop((int(x0 * w0), int(y0 * h0), int(round(x1 * w0)), int(round(y1 * h0))))
+    K = dict(KINDS["screenshot"]); W, b = K["w"], K["mx"]
+    iw = W - 2 * b; ih = int(round(img.height * iw / img.width))
+    if ih > 1.8 * iw:
+        print(f"  [documents] screenshot is {ih / iw:.1f}x taller than wide: crop it to the part that matters "
+              f"(crop: [x0, y0, x1, y1])")
+    src = str(r.get("source") or "").strip()
+    K["top"] = b + ih + 18
+    K["bottom"] = 34 if src else b - 18
+    paper, imgs, meta = document("screenshot", [f"c:{src.upper()}"] if src else [], seed, K=K)
+    shot = np.asarray(img.resize((iw, ih), Image.LANCZOS), np.float32) * 0.95 + 6  # matte: the blacks lift a little
+    paper[b - 2:b + ih + 2, b - 2:b + iw + 2, :3] = (196, 194, 190)  # a keyline, so a white page never melts into the border
+    paper[b:b + ih, b:b + iw, :3] = np.clip(shot, 0, 255).astype(np.uint8)
+    for L in meta["lines"]:  # the source line: printed with the paper, never written on his words
+        L["i"] += 1; L["caption"] = True
+    meta["lines"].insert(0, {"i": 0, "spec": "IMAGE", "y": b, "h": ih, "wave": False, "text": "", "xs": [], "x0": b,
+                             "x1": b + iw, "acc": False, "iy": b, "image": True})
+    meta.update(image=[b, b, iw, ih], source=src)
+    return paper, [(np.zeros((1, W, 4), np.uint8), None)] + imgs, meta

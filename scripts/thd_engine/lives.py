@@ -5,6 +5,8 @@ reveals (cues; `follow: true` writes each line while he says it) and when each a
 
 Cue forms, per line index:  "expr"  |  [expr, seconds]  |  [expr, "end-expr"]  |  {at, dur | to, mode}
 (a number is a length, a string is a time). `values`/`waves` are the receipt-era names for cues.
+`marker: {at, lines: [a, b]}` circles lines; on a screenshot, `marker: {at, box: [x0, y0, x1, y1]}`
+circles part of the image (fractions). Stamps land on `line` (default 4; on a screenshot, the image).
 """
 from . import materials
 
@@ -42,7 +44,7 @@ def follow(tl, name, m, life, given):
     """Each text line writes itself while he says it, first word to last."""
     out, after = {}, life.get("appear", 0.0)
     for L in m["lines"]:
-        if L["i"] in given or L["wave"] or not L.get("text"):
+        if L["i"] in given or L["wave"] or not L.get("text") or L.get("caption"):  # a print's source is not said
             continue
         span = tl.phrase(L["text"], after)
         if span is None:
@@ -85,8 +87,15 @@ def resolve(plan, tl, meta):
         life["marks"] = marks
         if "marker" in r:
             mk = r["marker"]; t0 = tl.t(mk["at"])
-            life["marker"] = (t0, t0 + float(mk.get("dur", 0.34)), tuple(mk["lines"]))
-        life["stamps"] = [dict(at=tl.t(s["at"]), text=s.get("text", "TESTED"), line=int(s.get("line", 4)),
+            if "box" in mk:
+                if r["kind"] != "screenshot":
+                    raise SystemExit(f"document {name!r}: marker box is for screenshots; circle paper lines with lines: [a, b]")
+                target = ("box",) + tuple(float(v) for v in mk["box"])
+            else:
+                target = tuple(mk["lines"])
+            life["marker"] = (t0, t0 + float(mk.get("dur", 0.34)), target)
+        last = len(m["lines"]) - 1; home = 0 if r["kind"] == "screenshot" else 4
+        life["stamps"] = [dict(at=tl.t(s["at"]), text=s.get("text", "TESTED"), line=min(int(s.get("line", home)), last),
                                angle=float(s.get("angle", -7)), width=float(s.get("width", 330)))
                           for s in r.get("stamps", [])]
         lives[name] = life

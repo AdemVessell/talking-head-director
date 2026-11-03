@@ -7,7 +7,8 @@ plan["shots"]: [{at: "B.pin", shot: face|doc|split|desk|film, ...}, ...]   each 
   doc    one document is the hero (doc: name). A page too tall to read whole: the camera follows
          each line as it is written (one zoom per paper, set by its widest line, so no line is
          ever cut off), then pulls back to the page. A card that fits: framed whole, revealing in
-         place. A marker circle inside the shot is framed when nothing is being written.
+         place. A marker circle inside the shot is framed when nothing is being written. A
+         screenshot print is always framed whole, then pushed into the part its marker circles.
          presenter: false drops the small print from the desk.
   split  the presenter print and one document together: stacked for wide paper, side by side
          for a receipt or sticky note.
@@ -209,6 +210,18 @@ def t_doc(c, s):
         else:
             spans.append([a, b])
     c.hide += [[round(a, 3), round(b, 3)] for a, b in spans]
+    if kind == "screenshot":  # evidence: the whole picture, and on its marker, into the circled part
+        mk = life.get("marker")
+        if not (mk and mk[2][0] == "box" and c.t0 <= mk[0] < c.t1):
+            return lay, c.hold_keys(page, s, "push")
+        th = math.radians(R["rot"]); xc = R["left"] + width / 2; sc = width / m["w"]; f = 1.0 / c.fps
+        ix, iy, iw, ih = m["image"]; x0, y0, x1, y1 = mk[2][1:]
+        dx, dy = (ix + (x0 + x1) / 2 * iw - m["w"] / 2) * sc, (iy + (y0 + y1) / 2 * ih) * sc
+        bx = xc + dx * math.cos(th) - dy * math.sin(th); by = R["top"] + dx * math.sin(th) + dy * math.cos(th)
+        zb = max(page[2], min(page[2] * 2.0, 0.78 * c.W / max(1.0, (x1 - x0) * iw * sc)))
+        tgt = (bx, by - (0.40 - 0.5) * c.H / zb, zb)
+        return lay, [c.key(c.t0, page), c.key(max(c.t0 + f, mk[0] - 0.3), c.moved(page, "push"), "io2"),
+                     c.key(mk[0] + 0.3, tgt, "io3"), c.key(c.t1, (tgt[0], tgt[1], tgt[2] * 1.02), "io2")]
     texts = [x for x in L if x.get("text") or x["wave"]]
     ux0 = min(x["x0"] for x in texts); ux1 = max(x["x1"] for x in texts)  # the widest line sets one zoom per paper
     z = min(2.3, max(1.0, 0.84 * c.W / ((ux1 - ux0) * sc)))

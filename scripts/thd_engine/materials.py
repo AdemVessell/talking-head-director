@@ -4,9 +4,11 @@ tape, push pins, rubber stamps and typed labels. Desk surfaces are shared across
 (surfaces.py) and chosen by the plan's treatment (treatments.py).
 
 Plan keys: `documents: {name: {kind, lines, ...life}}`; `receipts:` is the same thing with
-kind receipt (the original key, still accepted).
+kind receipt (the original key, still accepted). A `kind: screenshot` document has `image:`
+(relative paths are read from the plan's folder), `crop:` and `source:` instead of lines.
 """
 import hashlib, json, math
+from pathlib import Path
 import cv2
 import numpy as np
 import soundfile as sf
@@ -108,8 +110,27 @@ def docs_of(plan):
     return out
 
 
+def image_path(plan, r):
+    """A screenshot's file: absolute, or relative to the plan's folder."""
+    p = Path(str(r.get("image") or "")).expanduser()
+    if not str(r.get("image") or "").strip():
+        raise SystemExit("a screenshot document needs image: path/to/screenshot.png")
+    p = p if p.is_absolute() else (plan.path.parent / p).resolve()
+    if not p.exists():
+        raise SystemExit(f"screenshot image not found: {p}")
+    return p
+
+
+def _doc_key(plan, v):
+    if v["kind"] == "screenshot":  # the picture itself is the content: its file, size and date
+        p = image_path(plan, v); st = p.stat()
+        return {"kind": "screenshot", "image": str(p), "size": st.st_size, "mtime": st.st_mtime, "crop": v.get("crop"),
+                "source": v.get("source"), "stamps": v.get("stamps", [])}
+    return {"kind": v["kind"], "lines": v["lines"], "stamps": v.get("stamps", [])}
+
+
 def _key(plan):
-    docs = {k: {"kind": v["kind"], "lines": v["lines"], "stamps": v.get("stamps", [])} for k, v in docs_of(plan).items()}
+    docs = {k: _doc_key(plan, v) for k, v in docs_of(plan).items()}
     blob = json.dumps({"d": docs, "l": plan.get("labels", {}), "v": 5}, sort_keys=True)
     return hashlib.sha1(blob.encode()).hexdigest()[:12]
 
@@ -129,7 +150,7 @@ def build(plan, force=False):
         for i, col in enumerate([(214, 62, 38), (236, 228, 210), (38, 36, 34)]):
             Image.fromarray(pin(col)).save(d / f"pin{i}.png")
     docs = docs_of(plan)
-    audio = sr = None; waves = [s for r in docs.values() for s in r["lines"] if s.startswith("WAVE:")]
+    audio = sr = None; waves = [s for r in docs.values() for s in r.get("lines", []) if s.startswith("WAVE:")]
     ref = 1.0
     if waves:
         audio, sr = sf.read(plan.wp("prep", "audio48.wav"), dtype="float32")
@@ -140,7 +161,10 @@ def build(plan, force=False):
         if old.name != "print_paper.png":  # stale document textures only
             old.unlink()
     for k, (name, r) in enumerate(docs.items()):
-        paper, imgs, m = documents.document(r["kind"], r["lines"], 11 + k, audio, sr, ref)
+        if r["kind"] == "screenshot":
+            paper, imgs, m = documents.screenshot(dict(r, image=str(image_path(plan, r))), 11 + k)
+        else:
+            paper, imgs, m = documents.document(r["kind"], r["lines"], 11 + k, audio, sr, ref)
         Image.fromarray(paper).save(d / f"{name}_paper.png")
         for i, (ink, acc) in enumerate(imgs):
             Image.fromarray(ink).save(d / f"{name}_line{i:02d}.png")
