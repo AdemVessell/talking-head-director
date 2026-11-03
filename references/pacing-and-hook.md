@@ -58,8 +58,10 @@ The hook compresses a true line he said. Never invent the fact behind it.
 
 hook (0-3 s) -> stakes (3-10 s: why the viewer should care) -> beats (claim ->
 proof visual -> his reaction) -> re-hooks -> turn or opinion -> close (verdict
-line plus a human moment) -> end on a cut or a beat, not a slow fade. If
-there's a call to action, make it a question for the comments.
+line plus a human moment) -> end on a cut or a beat, not a slow fade. No
+calls to action: never ask for likes, reposts, replies or follows (X's
+creator rewards reportedly drop accounts that keep asking). A question is fine
+when it is part of his take, never as a sign-off formula.
 
 ## Rhythm is contrast
 
