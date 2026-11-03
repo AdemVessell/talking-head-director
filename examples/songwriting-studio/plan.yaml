@@ -49,6 +49,7 @@ documents:
     marker: {lines: [4, 5], at: "L.w:rhetorical", dur: 0.5}
   cliche:
     kind: clipping
+    source: own                      # his own line, not a quoted headline (thd xcheck asks every clipping)
     lines: ["h:c:It's In Their", "h:c:Bones", "rule", "c:coursing through their veins"]
     slap: "F3.w:bones-0.08"
     cues: {3: "G.w:coursing"}

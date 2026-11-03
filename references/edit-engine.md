@@ -2,7 +2,9 @@
 
 Run it as `scripts/thd COMMAND ...` from any folder or agent. `thd doctor`
 checks a machine; `thd selftest` proves the whole pipeline in about a
-minute, so run it before and after any engine change.
+minute, so run it before and after any engine change. News shorts for X:
+`thd news` drafts a news-shaped plan and `thd xcheck` (also the last step of
+`thd all`) checks it before posting; see [news-kit.md](news-kit.md).
 `scripts/edit_engine.py` turns a plan (YAML or JSON) into a finished vertical
 edit: story cut, rostrum camera over physical paper on a desk surface,
 documents that write, type or print themselves on his words, word-timed
@@ -106,7 +108,7 @@ the session cost). Surfaces are generated once per machine
 ```yaml
 documents:
   lyric:
-    kind: note                      # receipt card note sticky clipping blueprint printout index staff
+    kind: note                      # receipt card note sticky clipping blueprint printout index staff screenshot
     lines: ["h:being lost", "l:losing your purpose", "x:it's in my bones", "done:demo", "n:1:take a phrase"]
     cues: {1: ["D.w:losing", "D.we:purpose,"]}   # line 1 writes from "losing" to the end of "purpose,"
     follow: true                    # or: every text line writes itself while he says it
@@ -133,8 +135,12 @@ blueprint `draw`, printout `print` (bursts). A cue is `"expr"` (default length
 from the text), `[expr, seconds]`, `[expr, "end-expr"]` or
 `{at, dur | to, mode}`. `values`/`waves` (receipt era) still work.
 
-Write his words or his numbers, never new claims; headlines on clippings are
-his phrases, never a real outlet's name or masthead. Label reconstructions.
+Write his words or his numbers, never new claims. Headlines on clippings are
+his phrases; a real outlet's headline appears only verbatim, with a
+`c:VIA OUTLET · DATE` line and `source:`, never as a masthead or logo. Label
+reconstructions. For real evidence use `kind: screenshot`: a real capture
+printed with its source (`image:`, `crop:`, `source:`, stamps,
+`marker: {box: [...]}`); see [news-kit.md](news-kit.md).
 
 ## Shots (the fast way)
 

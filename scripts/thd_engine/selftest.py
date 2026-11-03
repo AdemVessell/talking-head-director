@@ -4,17 +4,22 @@ macOS `say` speaks four short lines over an ffmpeg test pattern, and the engine
 runs the whole pipeline on it as on a real recording: autocut -> plan (studio
 treatment, a sticky and a typed index card; face, doc, split and desk shots) ->
 prep -> edit -> sound -> render -> assemble -> holds -> audit. The pattern has
-no face, so the plan says `face: center`. Checks on the finished MP4: size and
-frame rate, length against the EDL, an audio track, picture detail on the paper
-shot, and sync. Everything stays in ~/.cache/thd_engine/selftest to look at.
-Run it before and after changing the engine.
+no face, so the plan says `face: center`. The desk at the end carries a clearly
+labelled synthetic screenshot (a print with its source, a marker box and an
+UNCONFIRMED stamp). Checks on the finished MP4: size and frame rate, length
+against the EDL, an audio track, picture detail on the paper shot, and sync.
+Then the news kit: `news.draft` turns the same recording into a news plan (it
+shares the prepared footage), four stills are rendered from it, and the X
+pre-posting check runs on both plans. Everything stays in
+~/.cache/thd_engine/selftest to look at. Run it before and after changing the engine.
 """
-import json, re, shutil, subprocess, time
+import json, os, re, shutil, subprocess, time
 
 import numpy as np
 import yaml
+from PIL import Image, ImageDraw, ImageFont
 
-from . import audit, autocut, captions, dialogue, prep, render, sound
+from . import audit, autocut, captions, dialogue, news, prep, render, sound, xcheck
 from .plan import Plan
 from .surfaces import CACHE
 from .timeline import Timeline, norm
@@ -39,6 +44,22 @@ def voice(d):
     return src
 
 
+def test_page(path):
+    """A clearly labelled synthetic web page: the stand-in for a real screenshot (never a real outlet)."""
+    sup = "/System/Library/Fonts/Supplemental/"; W, H = 1400, 820
+    im = Image.new("RGB", (W, H), (255, 255, 255)); d = ImageDraw.Draw(im)
+    d.rectangle([0, 0, W, 96], fill=(30, 30, 34))
+    d.text((40, 26), "SELFTEST  -  SYNTHETIC PAGE, NOT A REAL PUBLICATION", font=ImageFont.truetype(sup + "Arial Bold.ttf", 40),
+           fill=(255, 255, 255))
+    big = ImageFont.truetype(sup + "Georgia Bold.ttf", 78)
+    d.text((40, 150), "Engine check: the news kit pins", font=big, fill=(20, 20, 20))
+    d.text((40, 250), "a screenshot with its source", font=big, fill=(20, 20, 20))
+    for k in range(5):
+        d.rectangle([40, 400 + k * 70, 1240 - 140 * (k % 3), 430 + k * 70], fill=(205, 205, 210))
+    im.save(path)
+    return path
+
+
 def write_plan(d, src, segs):
     def seg(word):
         for s in segs:
@@ -50,12 +71,16 @@ def write_plan(d, src, segs):
              {"at": f"{a}.pin", "shot": "doc", "doc": "card"}]
     if b != a:
         shots.append({"at": f"{b}.pin", "shot": "split", "doc": "card"})
-    shots.append({"at": f"{c}.pin", "shot": "desk", "docs": ["card", "title"]})
+    shots.append({"at": f"{c}.pin", "shot": "desk", "docs": ["card", "title", "evidence"]})
     plan = {"name": "selftest", "work_dir": str(d / "work"), "source": str(src), "fps": 30, "tail": 0.9,
             "treatment": "studio", "face": "center", "segments": segs,
             "documents": {"title": {"kind": "sticky", "lines": ["h:c:SELF", "h:c:TEST"], "appear": 0},
                           "card": {"kind": "index", "lines": ["n:1:write the title", "n:2:ask a question"],
-                                   "cues": {0: [f"{a}.w:write", f"{a}.we:title"], 1: [f"{b}.w:ask", f"{b}.we:question"]}}},
+                                   "cues": {0: [f"{a}.w:write", f"{a}.we:title"], 1: [f"{b}.w:ask", f"{b}.we:question"]}},
+                          "evidence": {"kind": "screenshot", "image": str(test_page(d / "test_page.png")),
+                                       "crop": [0, 0, 1, 0.62], "source": "Selftest · synthetic page",
+                                       "marker": {"box": [0.02, 0.22, 0.85, 0.62], "at": f"{c}.w:That", "dur": 0.4},
+                                       "stamps": [{"at": f"{c}.w:whole", "text": "UNCONFIRMED"}]}},
             "shots": shots,
             "mix": {"voice_chain": "light", "voice_lufs": -16, "lufs": -14, "fade_out": ["END-0.30", "END-0.12"]},
             "end": {"burn": ["END-0.34", "END-0.22"]}, "finish": "medium"}
@@ -64,7 +89,30 @@ def write_plan(d, src, segs):
     return p, a
 
 
-def check(plan, tl, out, report, a, secs):
+def news_kit(d, src, plan):
+    """The same recording through `thd news`: a news plan on the shared prepared footage, four stills
+    (thumbnail, evidence print, take, split) and the X check. Returns check rows and the result."""
+    nd = d / "news"; (nd / "work").mkdir(parents=True)
+    for f in ("transcript.json", "audio48.wav"):  # the cached transcript: no second transcription
+        shutil.copy(d / f, nd / f)
+    os.symlink(plan.wp("prep"), nd / "work" / "prep")  # same recording, same cut: share the prepared footage
+    path = news.draft(src, nd, "newsroom", "SELF TEST", "write the title on the card", "Selftest", "synthetic page",
+                      d / "test_page.png", "UNCONFIRMED")
+    nplan = Plan.load(path); R = render.Renderer(nplan)
+    times = [0.0] + [min(R.tl.total - 0.1, R.tl.t(s["at"]) + 0.7) for s in nplan["shots"][1:4]]
+    ims = [R.frame(int(round(t * nplan.fps))) for t in times]
+    th = [np.asarray(Image.fromarray(np.asarray(x, np.uint8)).resize((360, 640), Image.LANCZOS)) for x in ims]
+    Image.fromarray(np.hstack(th)).save(nplan.wp("review", "news_sheet.jpg"), quality=90)
+    detail = [float(np.asarray(Image.fromarray(np.asarray(x, np.uint8)).convert("L"), np.float32).std()) for x in ims]
+    shots = " / ".join(s["shot"] + (f" {s['size']}" if "size" in s else "") for s in nplan["shots"][:4])
+    xn = xcheck.run(nplan, R)
+    ev = nplan["documents"].get("evidence", {})
+    rows = [("news", ev.get("kind") == "screenshot" and min(detail) > 8,
+             f"{len(nplan['shots'])} shots ({shots} ...), stills detail {min(detail):.0f}+")]
+    return rows, xn, nplan.wp("review", "news_sheet.jpg")
+
+
+def check(plan, tl, out, report, a, secs, extra=()):
     info = json.loads(subprocess.run(["ffprobe", "-v", "error", "-show_streams", "-show_format", "-of", "json", str(out)],
                                      capture_output=True, text=True, check=True).stdout)
     v = next(s for s in info["streams"] if s["codec_type"] == "video")
@@ -83,7 +131,7 @@ def check(plan, tl, out, report, a, secs):
               ("length", abs(dur - tl.total) < 0.1, f"{dur:.2f} s (EDL {tl.total:.2f} s)"),
               ("audio", has_audio, "AAC track" if has_audio else "no audio stream"),
               ("picture", detail > 8, f"paper shot at {t:.1f} s, detail {detail:.0f}"),
-              ("sync", abs(lag) <= 1000 / plan.fps, f"{lag:+.2f} ms")]
+              ("sync", abs(lag) <= 1000 / plan.fps, f"{lag:+.2f} ms")] + list(extra)
     ok = all(c[1] for c in checks)
     print(f"\nselftest {'PASS' if ok else 'FAIL'}  ({secs:.0f} s)")
     for name, good, detail in checks:
@@ -105,4 +153,11 @@ def run(jobs=8):
     dialogue.build(plan); tl = Timeline(plan); captions.srt(plan, tl, plan.wp("out", "captions.srt"))
     sound.build(plan, tl); render.render(plan, jobs); out = render.assemble(plan)
     audit.holds(plan); report = audit.qa(plan, out, True)
-    return check(plan, tl, out, report, a, time.time() - t0)
+    xm = xcheck.run(plan)
+    rows, xn, sheet = news_kit(d, src, plan)
+    rows.append(("xcheck", not xm["fail"] and not xn["fail"],
+                 f"main {xm['fail']} fail / {xm['warn']} warn, news {xn['fail']} fail / {xn['warn']} warn"))
+    code = check(plan, tl, out, report, a, time.time() - t0, rows)
+    print(f"  INFO  feed     {xm['preview']}")
+    print(f"  INFO  news     {sheet}")
+    return code

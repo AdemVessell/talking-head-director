@@ -5,7 +5,8 @@ choose the document the video's subject would really produce (treatments.py).
   card       spec / lab card, holed   products, gear, tests, measurements
   note       lined notebook page      ideas, lyrics, plans, personal thoughts (handwritten)
   sticky     sticky note              tips, asides, reminders (marker)
-  clipping   newsprint, torn          opinions, claims, industry talk (his words as headlines; no real mastheads)
+  clipping   newsprint, torn          opinions, claims, industry talk (his words as headlines; a real headline
+                                      only verbatim with a "via OUTLET" line; never a masthead or logo)
   blueprint  drafting blue            how it works, builds, systems, architecture
   printout   tractor-feed printout    tech, AI, code, logs, prompts
   index      index card               definitions, steps, section titles
