@@ -121,6 +121,10 @@ treatment, shots, a lyric page written as he says it),
 `examples/grok-topup-v2/plan.yaml` (money receipts, 3D film wall).
 News shorts for X: `thd news` drafts the plan, screenshot prints carry the real
 source, and `thd xcheck` checks it before posting; read [news-kit.md](references/news-kit.md).
+Journeys (a TEST until Adem approves): `journey:` swaps the rostrum camera for a perspective camera
+(per-shot `view:` descend, lean, glide, low) with plane changes between shots (`via:` fall, dive,
+travel, flip), and `mono: true` gives a grey diorama stage with one accent; read
+[journeys.md](references/journeys.md), example `examples/songwriting-journey/plan.yaml`.
 `autocut` -> choose the story -> treatment, documents, shots -> `prep` ->
 `inspect` (fix every `!`) -> `edit` -> `holds` (look at every silent hold) ->
 `stills` -> `all`.

@@ -21,7 +21,12 @@ class Renderer:
         self.plan, self.proof = plan, proof
         self.tl, meta, lv = shots.prepare(plan)
         sc = 0.5 if proof else 1.0  # proof: half size, no motion blur, for reviewing timing fast
-        self.stage = Stage(plan, self.tl, meta, sc, lv)
+        if plan.get("journey") is not None:  # the opt-in perspective camera and plane changes
+            from .journeys import Journey
+            from .stage3d import Stage3D
+            self.stage = Stage3D(plan, self.tl, meta, sc, lv); self.journey = Journey(plan, self.stage)
+        else:
+            self.stage = Stage(plan, self.tl, meta, sc, lv); self.journey = None
         self.W, self.H = self.stage.W, self.stage.H
         self.finish = Finish(self.W, self.H, plan["finish"])
         self.cards = captions.cards(plan, self.tl)
@@ -43,6 +48,8 @@ class Renderer:
         else:
             stage = st.render(t, fr, rl)
         np.clip(stage, 0, 1, out=stage)
+        if self.journey:
+            stage = self.journey.post(stage, t)
         c = self.cap.render(self.cards, t)  # a band around the caption line, not a full frame
         layer = np.asarray(c).astype(np.float32) / 255
         if layer[..., 3].any():

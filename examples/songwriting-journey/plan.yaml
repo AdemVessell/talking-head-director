@@ -1,0 +1,99 @@
+# JOURNEY TEST of the approved songwriting cut: same story, words and papers, seen by the perspective
+# camera with plane changes (stage3d.py, journeys.py). Inspiration: Claude Motion and the 2026 Claude
+# motion-graphics wave (pull-backs, glides over tilted planes, scenes made from the previous one), our
+# BDT journey (travel, plane changes through a medium) and Sam's POV (a lit diorama, one red accent,
+# punch-ins on the word that lands).
+# Story in source order, tightened: the idea -> the method -> his song's theme -> the cliché ->
+# the question he asks of it -> the sung payoff -> "just an idea". Cut from the autocut draft.
+name: songwriting-journey
+work_dir: ~/Movies/thd-work/songwriting-journey
+source: "/Users/stevenson/Desktop/Songwriting idea, idiom rhetorical Q..mp4"
+fps: 30
+tail: 1.1
+treatment: studio
+presenter: {eye: 0.30, res: 1.7, grade: {relight: 0.0, bg_dim: 0.0, wb: [0, 0, 0], contrast: 0.1, sat: 1.0, sharpen: 0.25}}
+
+segments:
+  - {id: A, in: 0.64, out: 2.04, air: 4, text: "Songwriting idea."}
+  - {id: B, in: 2.07, out: 8.30, air: 3, text: "So you can take a popular phrase or cliche and ask a rhetorical question about it"}
+  - {id: C, in: 10.00, out: 14.58, air: 3, text: "does it apply? So for example I'm writing a song about the feeling of being lost,",
+     display: "does it apply? So for example I'm writing a song about the feeling of being lost,"}
+  - {id: D, in: 15.04, out: 16.752, air: 1, text: "about losing your purpose,"}
+  - {id: D2, in: 17.62, out: 20.30, air: 6, text: "waxing and waning of inspiration and such."}
+  - {id: E, in: 21.50, out: 23.40, air: 4, text: "So I was thinking well what is the opposite of that?"}
+  - {id: F, in: 23.85, out: 25.20, air: 1, text: "You know it's someone who can't help"}
+  - {id: F2, in: 25.72, out: 27.08, air: 1, text: "themselves have their"}
+  - {id: F3, in: 27.20, out: 30.11, air: 2, text: "focus or talent like oh it's in their bones"}
+  - {id: G, in: 30.14, out: 31.66, air: 4, text: "coursing through their veins"}
+  - {id: H, in: 33.150, out: 34.30, air: 2, text: "So I thought to myself,"}
+  - {id: H2, in: 35.98, out: 38.30, air: 6, text: "shouldn't I feel it in my bones?"}
+  - {id: L, in: 39.85, out: 41.55, air: 2, text: "it's kind of a rhetorical question"}
+  - {id: L2, in: 41.95, out: 42.70, air: 6, text: "on the"}
+  - {id: L3, in: 43.125, out: 45.10, air: 6, text: "idiom or phrase."}
+  - {id: O, in: 45.98, out: 55.15, air: 8, text: "shouldn't I feel it in my bones just a little on my own?",
+     display: "shouldn't I feel it in my bones, just a little, on my own?"}
+  - {id: P, in: 56.06, out: 56.80, air: 0, text: "Just an idea."}
+
+documents:
+  title:
+    kind: sticky
+    lines: ["h:c:SONGWRITING", "h:c:IDEA"]
+    appear: 0
+  card:
+    kind: index
+    lines: ["n:1:take a popular phrase", "n:2:ask a rhetorical question", "n:3:does it apply?"]
+    cues: {0: ["B.w:take", "B.we:phrase"], 1: ["B.w:ask", "B.we:question"], 2: ["C.w:does", "C.we:apply?"]}
+  lyric:
+    kind: note
+    lines: ["h:being lost", "l:losing your purpose", "l:waxing & waning", "gap",
+            "l:shouldn't I feel it", "l:in my bones?", "l:just a little,", "l:on my own?"]
+    cues: {0: ["C.w:being", "C.we:lost,"], 1: ["D.w:losing", "D.we:purpose,"], 2: ["D2.w:waxing", "D2.we:waning"],
+           4: ["H2.w:shouldn't", "H2.we:it"], 5: ["H2.w:in", "H2.we:bones?"],
+           6: ["O.w:just", "O.we:little,"], 7: ["O.w:on", "O.we:own?"]}
+    marker: {lines: [4, 5], at: "L.w:rhetorical", dur: 0.5}
+  cliche:
+    kind: clipping
+    lines: ["h:c:It's In Their", "h:c:Bones", "rule", "c:coursing through their veins"]
+    slap: "F3.w:bones-0.08"
+    source: own        # a common idiom he frames himself, not a quote from an outlet
+    cues: {3: "G.w:coursing"}
+  tip:
+    kind: sticky
+    lines: ["c:TAKE A CLICHE", "c:ASK IF", "c:IT APPLIES"]
+    slap: "P.w:Just+0.1"
+
+journey:
+  focal: 1.15        # pinhole focal, x frame height
+  dark: 0.35         # a lit stage: edges fall into shadow
+  fog: 0.9           # the far desk sinks into darkness when the camera tilts
+  dof: 1.0           # depth of field on tilted views
+  pulse: 0.12
+  pulses: ["B.w:rhetorical", "F3.w:bones", "G.w:veins", "H2.w:bones?", "L.w:rhetorical"]
+
+shots:
+  - {at: 0, shot: face, size: P, docs: [{doc: title, slot: br}], snap: true, view: descend}   # we come down onto him
+  - {at: "B.pin", shot: doc, doc: card, via: dive, view: lean}       # fall through his face onto the method card
+  - {at: "C.w:So-2f", shot: split, doc: lyric, via: travel}         # whip across to the lyric page
+  - {at: "D.pin", shot: doc, doc: lyric, view: lean}                # purpose, waxing & waning write on
+  - {at: "E.pin", shot: face, size: W, snap: true, via: fall}       # the page falls away: "what is the opposite?"
+  - {at: "F.pin", shot: face, size: P, docs: [{doc: cliche, slot: low}]}   # the cliché slaps onto the print on "bones"
+  - {at: "G.pin", shot: doc, doc: cliche, presenter: false, via: dive, view: glide}   # into the clipping: veins
+  - {at: "H.pin", shot: face, size: W, via: flip}                   # turn it over: "so I thought to myself"
+  - {at: "H2.pin", shot: doc, doc: lyric, view: lean}               # the question writes itself
+  - {at: "L.pin", shot: doc, doc: lyric}                            # the marker circles it
+  - {at: "O.pin", shot: face, size: W, move: push, via: fall}       # the page falls away; he sings it
+  - {at: "O.w:just-0.15", shot: doc, doc: lyric}                    # just a little, on my own?
+  - {at: "P.pin", shot: desk, docs: [lyric, card, cliche, tip], via: travel, view: low}   # a low pass over the whole desk
+
+sfx:   # the plane changes have their own air
+  - {kit: whoosh, at: "B.pin", db: -21, pitch: -2}
+  - {kit: swish, at: "C.w:So-2f", db: -20}
+  - {kit: whoosh, at: "E.pin", db: -21, pitch: -4}
+  - {kit: whoosh, at: "G.pin", db: -21, pitch: -2}
+  - {kit: swish_short, at: "H.pin", db: -19}
+  - {kit: whoosh, at: "O.pin", db: -23, pitch: -4}
+  - {kit: swish, at: "P.pin", db: -20}
+
+mix: {voice_chain: light, voice_lufs: -16, lufs: -14, fade_out: ["END-0.30", "END-0.12"]}
+end: {burn: ["END-0.34", "END-0.22"]}
+finish: medium
