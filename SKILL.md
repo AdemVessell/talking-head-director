@@ -125,6 +125,8 @@ Journeys (a TEST until Adem approves): `journey:` swaps the rostrum camera for a
 (per-shot `view:` descend, lean, glide, low) with plane changes between shots (`via:` fall, dive,
 travel, flip), and `mono: true` gives a grey diorama stage with one accent; read
 [journeys.md](references/journeys.md), example `examples/songwriting-journey/plan.yaml`.
+Dioramas (a TEST): animated Blender scenes under his voice as `shot: scene`, built with
+`scripts/diorama/kit.py` and keyed to his words; read [dioramas.md](references/dioramas.md).
 `autocut` -> choose the story -> treatment, documents, shots -> `prep` ->
 `inspect` (fix every `!`) -> `edit` -> `holds` (look at every silent hold) ->
 `stills` -> `all`.

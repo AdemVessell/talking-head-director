@@ -78,6 +78,7 @@ samples so fast whips blur instead of stepping.
 - `dof` blurs by depth from the focus plane, at most 9 px at 1080 wide.
 - `pulses` are quick punch-ins that ease back (+12 %, 70 ms in, 160 ms decay).
 - `mono: true` turns the stage grey; the presenter print, films and the vermilion ink keep their colour.
+  Scene shots ([dioramas.md](dioramas.md)) keep their own palette.
 
 ## Grammar from the first test
 

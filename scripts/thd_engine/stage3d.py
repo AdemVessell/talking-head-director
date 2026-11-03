@@ -21,7 +21,7 @@ import math
 import cv2
 import numpy as np
 
-from .stage import EASE, Canvas, Stage, Tex, c01, e_oback, lerp, seg
+from .stage import EASE, Canvas, Stage, Tex, c01, e_oback, lerp, read_at, seg
 
 
 def affine(M):
@@ -114,6 +114,7 @@ class Stage3D(Stage):
         self.dark, self.fog = cfg.get("dark", 0.35), cfg.get("fog", 0.9)
         self.pulse_amp = cfg.get("pulse", 0.12)
         self.pulses = sorted(tl.t(e) for e in cfg.get("pulses", []))
+        self.scene_caps, self.scene_len = {}, {}
         # which shot each beat came from (layout names are s{k:02d}_{shot}), and each shot's span
         shot_of = {b["name"]: int(b["layout"][1:3]) for b in plan.get("beats", []) if b.get("layout", "")[:1] == "s"}
         self.shot_of, self.spans = {}, {}
@@ -123,6 +124,27 @@ class Stage3D(Stage):
             if k is not None:
                 a, z = self.spans.get(k, (b["t0"], b["t1"]))
                 self.spans[k] = (min(a, b["t0"]), max(z, b["t1"]))
+
+    # ---- scene shots: a full-frame clip (a Blender diorama) in place of the desk
+    def render(self, t, fr, rl, t_ink=None):
+        sc = self.beat_at(t)["lay"].get("scene")
+        if sc:
+            return self.scene_frame(sc, t)
+        return super().render(t, fr, rl, t_ink)
+
+    def scene_frame(self, sc, t):
+        path = sc["clip"]
+        if path not in self.scene_len:
+            cap = cv2.VideoCapture(path)
+            if not cap.isOpened():
+                raise SystemExit(f"scene clip missing or unreadable: {path}")
+            self.scene_len[path] = int(cap.get(cv2.CAP_PROP_FRAME_COUNT)); cap.release()
+        idx = min(self.scene_len[path] - 1, max(0, int(round((t - sc["t0"] + sc["start"]) * self.fps))))
+        img = read_at(self.scene_caps, path, path, idx)
+        h, w = img.shape[:2]; s = max(self.W / w, self.H / h)  # cover the frame, centred
+        img = cv2.resize(img, (max(self.W, int(round(w * s))), max(self.H, int(round(h * s)))), interpolation=cv2.INTER_AREA)
+        y0 = (img.shape[0] - self.H) // 2; x0 = (img.shape[1] - self.W) // 2
+        return img[y0:y0 + self.H, x0:x0 + self.W].astype(np.float32) / 255
 
     # ---- camera
     def view_at(self, t):

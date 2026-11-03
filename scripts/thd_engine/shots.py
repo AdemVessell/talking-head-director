@@ -26,6 +26,7 @@ appear/slap/drop arrives in the first shot that shows it (receipts and printouts
 paper slaps down). While the camera follows a line being written, captions of those words are
 hidden (the paper already says them). The expansion is written to work/review/shots.yaml.
 """
+from pathlib import Path
 import json, math
 import numpy as np
 
@@ -346,7 +347,19 @@ def t_film(c, s):
     return lay, c.hold_keys(cam, s, "push")
 
 
-TEMPLATES = {"face": t_face, "doc": t_doc, "split": t_split, "desk": t_desk, "film": t_film}
+def t_scene(c, s):
+    """A full-frame clip made outside the stage (a Blender diorama) replaces the desk for the shot.
+    scene: the clip (relative to the plan); start: clip seconds at the shot's start (default 0).
+    The clip must be at the plan's frame rate; it is fitted to cover the frame."""
+    clip = Path(s["scene"]).expanduser()
+    if not clip.is_absolute():
+        clip = c.plan.path.parent / clip
+    lay = {"scene": {"clip": str(clip), "t0": round(c.t0, 4), "start": float(s.get("start", 0.0))}}
+    cam = (540.0, 960.0, 1.0)
+    return lay, [c.key(c.t0, cam), c.key(c.t1, cam)]
+
+
+TEMPLATES = {"face": t_face, "doc": t_doc, "split": t_split, "desk": t_desk, "film": t_film, "scene": t_scene}
 JUMP_SHOTS = {"face", "split"}
 
 

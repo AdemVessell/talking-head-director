@@ -21,7 +21,8 @@ class Renderer:
         self.plan, self.proof = plan, proof
         self.tl, meta, lv = shots.prepare(plan)
         sc = 0.5 if proof else 1.0  # proof: half size, no motion blur, for reviewing timing fast
-        if plan.get("journey") is not None:  # the opt-in perspective camera and plane changes
+        if plan.get("journey") is not None or any(s.get("shot") == "scene" for s in plan.get("shots") or []):
+            # the opt-in perspective camera and plane changes (scene shots need its stage too)
             from .journeys import Journey
             from .stage3d import Stage3D
             self.stage = Stage3D(plan, self.tl, meta, sc, lv); self.journey = Journey(plan, self.stage)

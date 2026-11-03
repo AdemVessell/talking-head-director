@@ -74,6 +74,8 @@ class Journey:
     def monochrome(self, img, t):
         """Grey stage, colour only where it means something: his print, films, the accent ink."""
         st = self.st; b = st.beat_at(t); lay = b["lay"]; M, _ = st.cam(t)
+        if "scene" in lay:  # a scene is art-directed in its own palette
+            return img
         keep = np.zeros((self.H, self.W), np.float32)
         names = (["presenter"] if "presenter" in lay else []) + [f"film:{i}" for i in range(len(b["films"]))]
         placed = st.lay_docs(lay)

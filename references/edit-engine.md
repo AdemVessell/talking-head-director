@@ -154,6 +154,7 @@ the camera, and writes what it built to `work/review/shots.yaml`.
 | `split` | print and one paper together: stacked for wide paper, side by side for a receipt or sticky |
 | `desk` | overview of the print and up to four papers, slow pull-out (endings, recaps) |
 | `film` | a film print is the hero, the print small in a corner |
+| `scene` | a full-frame clip (a Blender diorama, `scene: scenes/x.mov`, `start:`) replaces the desk; captions, finish and plane changes still apply. See [dioramas.md](dioramas.md) |
 
 Any shot: `snap: true` (6-frame snap in), `punch: "C.w:bones"` (14% closer
 on the word), `move: push | pull | drift | hold`, `rot`, `board`, `light`,
