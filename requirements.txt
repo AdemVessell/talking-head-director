@@ -1,0 +1,17 @@
+# Python packages for the edit engine, pinned to the set it was proven with
+# (2026-11-03, Apple's /usr/bin/python3 3.9.6). Install into a fresh interpreter with
+#   /usr/bin/python3 -m pip install --user -r requirements.txt
+# then run `scripts/thd doctor`. Outside Python the engine needs (doctor checks each):
+#   ffmpeg + ffprobe (Homebrew) with libx264, prores_ks, aac and drawtext;
+#   the macOS system fonts it names; the Whisper medium.en model (downloads on first use);
+#   Apple's Final Cut Pro sound effects for the SFX kit (without them: synthetic stand-ins).
+numpy==2.0.2
+opencv-contrib-python==4.13.0.92
+Pillow==11.3.0
+soundfile==0.13.1
+PyYAML==6.0.3
+stable-ts==2.19.1
+openai-whisper==20250625
+torch==2.8.0
+# optional, only for face_track.py --model face_landmarker.task (the default detector is OpenCV's):
+# mediapipe==0.10.35

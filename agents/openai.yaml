@@ -1,0 +1,4 @@
+interface:
+  display_name: "Talking-Head Director"
+  short_description: "Cut, shoot, style and audit talking-head videos to a pro social standard"
+  default_prompt: "Use $talking-head-director to plan and edit this talking-head video: story-first cut, hook, shot grammar, word-timed captions, explanatory graphics, analog finish and sound, then audit it before delivery."

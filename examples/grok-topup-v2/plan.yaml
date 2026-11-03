@@ -1,0 +1,162 @@
+# Claude's v2 demo cut (21.4 s) as an edit-engine plan: the worked example.
+# Evidence-board treatment. Every time is a word-keyed expression (see timeline.py),
+# so changing a segment's in/out re-times every shot, graphic and sound.
+# Run (from the skill's scripts/ folder):
+#   python3 edit_engine.py prep  ../examples/grok-topup-v2/plan.yaml
+#   python3 edit_engine.py all   ../examples/grok-topup-v2/plan.yaml
+name: grok-topup-v2
+work_dir: ~/Movies/thd-work/grok-topup-v2
+source: "/Users/stevenson/Desktop/Movie on 11-2-26 at 11.58 AM.mov"
+flip: true            # every approved cut of this recording is mirrored back
+fps: 30
+tail: 1.10            # after the last line: callback stamps + film burn
+room_tone: [76.30, 78.62]
+
+# ---- story: kept lines, cut at energy minima (edit_engine.py inspect helps)
+segments:
+  - {id: A, in: 72.30, out: 76.30, air: 5, fill: post,
+     text: "I added five bucks in as a test, lasted about five minutes.",
+     display: "I added 5 bucks in as a test, lasted about 5 minutes."}   # ends on the word (the look-down after it was a burp)
+  - {id: B, in: 79.06, out: 79.83, air: 3, fill: post, text: "Now, that's not"}
+  - {id: C, in: 81.63, out: 82.885, air: 4, fill: pre, text: "Grok's fault, I guess."}
+  - {id: T3, in: 88.08, out: 93.02, air: 6, fill: post,
+     text: "I was having to do some really weird 3D animation things.",
+     word_fixes: {"some": [88.88, 89.25], "really": [89.50, 89.86], "weird": [89.86, 90.22],
+                  "3D": [90.22, 90.95], "animation": [91.35, 92.46], "things.": [92.48, 92.95]}}
+  - {id: D, in: 169.87, out: 171.63, air: 4, fill: post, text: "I added $40 in."}
+  - {id: E, in: 171.99, out: 174.24, air: 6, fill: pre, text: "It literally lasted like 14 minutes,",
+     display: "It literally lasted like 14 minutes."}
+  - {id: F, in: 196.43, out: 198.80, air: 6, fill: post, text: "They burn fast.",
+     word_fixes: {"burn": [196.77, 197.73], "fast.": [198.05, 198.70]}}      # "They burn ... fast": a real pause
+  - {id: H, in: 199.29, out: 201.05, air: 0, fill: post, text: "Has that been your experience too?"}
+
+films:
+  awakening: {video: /Users/stevenson/arsenal-visuals/awakening/out/awakening-final-4k.mp4, from: 1.4, to: 9.8, scale: [1920, 804]}
+
+# ---- evidence: receipts are shared objects with a life (drop, values, marker, stamps)
+receipts:
+  r1:
+    lines: ["c:TOP-UP   No.01", rule, "l:GROK BOT · TEST", "l:CREDITS ADDED", "D:r:$5.00", rule,
+            "l:WHAT I WAS DOING:", "l: A COUPLE OF BOTS", "l: WEIRD 3D ANIMATION", rule, "l:LASTED", "D:c:~5 MIN",
+            rule2, "l:MY NUMBERS, FROM", "l:MEMORY. NOT A REAL", "l:RECEIPT."]
+    drop: [-0.24, 0.12, 780]                       # still settling on frame 1, readable as a thumbnail
+    values: {4: "A.w:5-0.02", 11: "A.w:5#2-0.02"}  # $5.00 and ~5 MIN print on the words
+    marker: {lines: [6, 8], at: "T3.w:really", dur: 0.34}
+    stamps: [{text: BURNED, at: "H.pout+0.14", line: 4, angle: -7}]
+  r2:
+    lines: ["c:TOP-UP   No.02", rule, "l:CHATGPT", "l:CREDITS ADDED", "D:r:$40.00", rule,
+            "l:CONTEXT:", "l: ON A $200 PLAN", "l: A COUPLE MONTHS AGO", rule, "l:LASTED", "D:c:~14 MIN",
+            rule2, "l:MY NUMBERS, FROM", "l:MEMORY. NOT A REAL", "l:RECEIPT."]
+    appear: "D.pin+0.03"
+    drop: ["D.pin+0.03", "D.pin+0.36", 980]
+    tape_at: "D.pin+0.36"
+    values: {4: "D.w:$40-0.02", 11: "E.w:14-0.03"}
+    stamps: [{text: BURNED, at: "H.pout+0.34", line: 4, angle: 5}]
+labels:
+  mywork: {text: MY OWN 3D WORK}
+
+# ---- sets: layout coordinates are output pixels at camera zoom 1
+layouts:
+  hook:
+    board: [500, 600]
+    light: [120, 160, 950, 0.55, 1.22]
+    presenter: {center: [400, 1010], inner: [720, 900], rot: -2.0, face_frac: 0.84, res: 1.5, tapes: [[-1, 0, -38], [1, 1, 36]]}
+    receipts: {r1: {left: 640, top: -60, width: 420, rot: 2.5, tape: false}}
+  board:
+    board: [700, 900]
+    light: [300, 260, 1000, 0.55, 1.20]
+    presenter: {center: [335, 760], inner: [560, 700], rot: -1.8, face_frac: 0.80, res: 1.0, border: 18, tapes: [[-1, 2, -36], [1, 3, 40]]}
+    receipts:
+      r1: {left: 660, top: 330, width: 380, rot: 0.6, tape: true, tape_index: 1, tape_angle: 3}
+      r2: {left: 1085, top: 330, width: 380, rot: -0.5, tape: true, tape_index: 3, tape_angle: -4}
+  close_a: &close
+    board: [900, 200]
+    light: [120, 140, 1000, 0.55, 1.18]
+    presenter: {center: [540, 850], inner: [980, 1225], rot: -0.6, face_frac: 0.68, res: 1.1, border: 22, tapes: [[-1, 0, -40], [1, 1, 38]]}
+  close_e:
+    board: [1500, 700]
+    light: [120, 140, 1000, 0.55, 1.18]
+    presenter: {center: [540, 850], inner: [980, 1225], rot: 0.5, face_frac: 0.68, res: 1.1, border: 22, x_offset: 0.02, tapes: [[-1, 0, -40], [1, 1, 38]]}
+  close_h:
+    board: [400, 1900]
+    light: [120, 140, 1000, 0.55, 1.18]
+    presenter: {center: [540, 850], inner: [980, 1225], rot: -0.3, face_frac: 0.68, res: 1.1, border: 22, x_offset: -0.02, tapes: [[-1, 0, -40], [1, 1, 38]]}
+  turn:
+    board: [600, 1100]
+    light: [140, 120, 1000, 0.55, 1.18]
+    presenter: {center: [540, 860], inner: [900, 1240], rot: 0.7, face_frac: 0.736, res: 1.65, border: 20, tapes: [[-1, 2, -36], [1, 3, 42]]}
+  wall:      # his own 3D film: three prints pinned down the board, one per word
+    board: [1100, 1500]
+    light: [220, 300, 1050, 0.55, 1.20]
+    films:
+      - {film: awakening, window: [1.75, 2.85], appear: "T3.w:3D-2f", center: [505, 360], inner: [820, 343], rot: -2.0, res: 1.6, border: 16, tapes: [[-1, 2, -34], [1, 0, 38]]}
+      - {film: awakening, window: [7.05, 7.96], appear: "T3.w:animation-2f", center: [575, 700], inner: [820, 343], rot: 1.4, res: 1.6, border: 16, tapes: [[-1, 1, -30], [1, 3, 35]]}
+      - {film: awakening, window: [8.45, 9.75], appear: "T3.w:things-2f", center: [520, 1040], inner: [820, 343], rot: -0.8, res: 1.6, border: 16, tapes: [[-1, 3, -36], [1, 2, 33]]}
+    labels: [{label: mywork, center: [800, 532], rot: -3.0, appear: "T3.w:animation-2f"}]
+
+# ---- shots: each beat is a layout plus camera keys [time, target, ease]
+beats:
+  - {name: hook, layout: hook, from: 0, to: "A.w:as-2f",
+     camera: [[0, {center: [540, 960], zoom: 1.0}], ["A.w:as-2f", {center: [530, 952], zoom: 1.03}, io2]]}
+  - {name: punch-snap, layout: hook, from: "A.w:as-2f", to: "A.pout",
+     camera: [["A.w:as-2f", {center: [470, 1102], zoom: 1.24}],
+              ["A.w:lasted-0.16", {center: [466, 1096], zoom: 1.27}, io2],
+              ["A.w:lasted+0.10", {receipt: r1, line: 10, zoom: 2.6}, oexp],
+              ["A.pout", {receipt: r1, line: 10, zoom: 2.66, dx: -2, dy: 8}, io2]]}
+  - {name: wide, layout: board, from: "B.pin", to: "B.pout",
+     camera: [["B.pin", {center: [540, 822], zoom: 1.02}], ["B.pout", {center: [540, 818], zoom: 0.995}, io2]]}
+  - {name: caveat-face, layout: close_a, from: "C.pin", to: "C.pout",
+     camera: [["C.pin", {center: [540, 960], zoom: 1.0}], ["C.pout", {center: [540, 940], zoom: 1.04}, io2]]}
+  - {name: marker, layout: board, from: "T3.pin", to: "T3.w:3D-2f",
+     camera: [["T3.pin", {center: [880, 917], zoom: 2.2}], ["T3.w:3D-2f", {center: [895, 905], zoom: 2.27}, io2]]}
+  - {name: film-wall, layout: wall, from: "T3.w:3D-2f", to: "T3.pout",
+     camera: [["T3.w:3D-2f", {center: [515, 586], zoom: 1.24}], ["T3.w:animation-2f", {center: [540, 640], zoom: 1.12}, io2],
+              ["T3.w:things-2f", {center: [540, 920], zoom: 1.0}, io2], ["T3.pout", {center: [540, 925], zoom: 0.98}, io2]]}
+  - {name: whip-receipt2, layout: board, from: "D.pin", to: "D.pout",
+     camera: [["D.pin", {center: [625, 700], zoom: 2.2}], ["D.pin+0.27", {center: [1245, 690], zoom: 2.2}, oexp],
+              ["D.pout", {center: [1250, 702], zoom: 2.25}, io2]]}
+  - {name: literally, layout: close_e, from: "E.pin", to: "E.w:14-0.14",
+     camera: [["E.pin", {center: [548, 960], zoom: 1.0}], ["E.w:14-0.14", {center: [548, 945], zoom: 1.03}, io2]]}
+  - {name: comparison, layout: board, from: "E.w:14-0.14", to: "E.pout",
+     camera: [["E.w:14-0.14", {center: [1065, 690], zoom: 1.25}], ["E.pout", {center: [1065, 687], zoom: 1.28}, io2]]}
+  - {name: turn, layout: turn, from: "F.pin", to: "F.pout",
+     camera: [["F.pin", {center: [540, 905], zoom: 0.82}], ["F.w:fast-0.20", {center: [540, 892], zoom: 0.88}, io2],
+              ["F.w:fast", {center: [540, 859], zoom: 1.56}, oexp], ["F.pout", {center: [540, 856], zoom: 1.59}, io2]]}
+  - {name: question, layout: close_h, from: "H.pin", to: "H.pout",
+     camera: [["H.pin", {center: [540, 960], zoom: 1.0}], ["H.pout", {center: [540, 938], zoom: 1.035}, io2]]}
+  - {name: callback, layout: board, from: "H.pout", to: END,
+     camera: [["H.pout", {center: [1065, 690], zoom: 1.24}], [END, {center: [1065, 686], zoom: 1.28}, io2]]}
+
+captions:
+  # word-index groups; lines the receipts already say stay off screen
+  groups: [[0, 4], [5, 7, "A.w:lasted-0.16"], [12, 14], [15, 16], [17, 18], [19, 23], [24, 26], [27, 29, "T3.pout"],
+           [34, 35], [36, 37, "E.w:14-0.14"], [40, 42], [43, 46], [47, 48, "H.pout"]]
+
+sfx:
+  - {kit: printer, at: 0.0, dur: 0.40, db: -21, align: start}
+  - {kit: flutter, at: 0.14, db: -24}
+  - {kit: tick, at: "A.w:5-0.04", db: -19}
+  - {kit: sub, at: "A.w:5-0.02", db: -15}
+  - {kit: swish, at: "A.w:lasted-0.03", db: -17}
+  - {kit: tick, at: "A.w:5#2-0.04", db: -18}
+  - {kit: lfe, at: "A.w:5#2-0.02", db: -12}
+  - {kit: pencil, at: "T3.w:really", db: -25}
+  - {kit: paper_slap, at: "T3.w:3D", db: -21}
+  - {kit: paper_slap, at: "T3.w:animation", db: -21}
+  - {kit: paper_slap, at: "T3.w:things", db: -21}
+  - {kit: whoosh, at: "D.pin+0.12", db: -16}
+  - {kit: printer, at: "D.pin+0.03", dur: 0.30, db: -22, align: start}
+  - {kit: paper_slap, at: "D.pin+0.36", db: -19}
+  - {kit: tape, at: "D.pin+0.37", db: -25}
+  - {kit: tick, at: "D.w:$40-0.04", db: -18}
+  - {kit: sub, at: "D.w:$40-0.02", db: -13}
+  - {kit: tick, at: "E.w:14-0.05", db: -18}
+  - {kit: lfe_big, at: "E.w:14-0.03", db: -11}
+  - {kit: swish_short, at: "F.w:fast-0.10", db: -15}
+  - {kit: shutter, at: "H.pout", db: -17}
+  - {kit: stamp, at: "H.pout+0.14", db: -8}
+  - {kit: stamp, at: "H.pout+0.34", db: -8, pitch: -1.5}
+  - {kit: burn, at: "END-0.20", db: -24}
+mix: {voice_lufs: -16, lufs: -14, fade_out: ["END-0.26", "END-0.10"]}
+end: {burn: ["END-0.30", "END-0.20"]}
+finish: medium
