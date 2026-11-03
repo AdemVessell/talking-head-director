@@ -142,7 +142,14 @@ def run():
         dirty = subprocess.run(["git", "-C", str(SKILL), "status", "--porcelain"], capture_output=True, text=True).stdout
         last = subprocess.run(["git", "-C", str(SKILL), "log", "-1", "--format=%h %cs %s"], capture_output=True, text=True).stdout.strip()
         n = len(dirty.splitlines())
+        ahead = subprocess.run(["git", "-C", str(SKILL), "rev-list", "--count", "@{u}..HEAD"], capture_output=True, text=True)
         add("INFO", "git", f"{last}" + (f"  ({n} uncommitted change{'s' * (n != 1)})" if n else "  (clean)"))
+        if ahead.returncode:
+            add("WARN", "backup", "no remote: commits live only on this Mac")
+        else:
+            k = int(ahead.stdout.strip() or 0)
+            add("WARN" if k else "PASS", "backup", f"{k} commit{'s' * (k != 1)} not pushed: git -C \"{SKILL}\" push" if k
+                else "every commit is on GitHub (private)")
     else:
         add("WARN", "git", f"not a repository: git -C \"{SKILL}\" init")
 

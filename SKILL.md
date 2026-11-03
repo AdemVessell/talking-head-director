@@ -103,8 +103,9 @@ agent, so:
   `thd selftest` runs the whole pipeline on a synthetic clip in about a
   minute.
 - Before changing the engine, run `thd selftest`. Run it again after, then
-  commit (`git -C <this folder> commit -am "what changed and why"`). Never
-  edit a copy of this folder.
+  commit and push to the private backup, `AdemVessell/talking-head-director`
+  (`git -C <this folder> commit -am "what changed and why"`, then
+  `git -C <this folder> push`). Never edit a copy of this folder.
 
 ## Edit engine (one plan file per video)
 

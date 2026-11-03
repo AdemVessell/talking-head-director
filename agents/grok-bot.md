@@ -23,6 +23,7 @@ Mac, so the work happens there.
 3. Deliver from the Mac's work folder (`work/out/*.mp4`, `work/review/QA.md`).
    Never re-cut a video that is already posted.
 4. If you change the engine, run `thd selftest` before and after, then commit
-   in that folder with a message saying what changed and why.
+   in that folder with a message saying what changed and why, and push (the
+   remote is Adem's private backup).
 
 If the Mac is unreachable, say so. Do not rebuild the engine in this box.
