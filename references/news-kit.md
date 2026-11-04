@@ -7,8 +7,8 @@ and a pre-posting check. The engine and the house style are unchanged
 ([edit-engine.md](edit-engine.md), [art-direction.md](art-direction.md)).
 
 ## Contents
-The story shape · One command · Evidence on the desk · Claim stamps ·
-The X check · Accuracy rules · Recipes
+The story shape · Recording and handing over · One command · Evidence on the
+desk · Claim stamps · The X check · Accuracy rules · Recipes
 
 ## The story shape (30-60 s)
 
@@ -23,6 +23,35 @@ The X check · Accuracy rules · Recipes
 4. **Why it matters.** One concrete consequence or thing to watch.
 5. **Verdict.** One line, and end on the cut. No call to action
    ([pacing-and-hook.md](pacing-and-hook.md)).
+
+## Recording and handing over
+
+- **One story per recording.** Aim for 30-90 s of talking, and open with the
+  news in one line.
+- **Pause half a second between sentences.** If you fluff a line, pause and say
+  the whole sentence again: autocut drops exact repeats, and the editor keeps
+  the clean take.
+- **Say the source out loud** ("The Verge reports..."). Say "reportedly" when
+  it isn't confirmed.
+- **Stay on camera for a second after the last word.** The ending needs those
+  frames.
+- **Send the original camera file, not a re-download.** Downloads are 720p,
+  which limits how far the camera can punch in on his face.
+- **Screenshot the evidence when you find it** (Shift-Cmd-4), uncropped.
+
+Put each story in its own folder: the recording, its screenshots, and a
+`notes.txt` that maps onto `thd news`:
+
+```
+headline: <the exact headline, copy-pasted>
+source: The Verge · Nov 4
+status: reported        # confirmed | reported | unconfirmed  (the stamp)
+title: GPT-6 SHIPS      # 1-3 words for the first-frame sticky
+screenshot: headline.png
+```
+
+The editor checks every number and name against the source before handing a
+video over. Adem watches it and posts it himself.
 
 ## One command
 
