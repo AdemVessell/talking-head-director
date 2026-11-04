@@ -224,6 +224,25 @@ audio diffed against the plan. A camera that follows typing or writing is
 real motion the hold metric does not count: read long holds against the shot
 list. Sung lines count as pauses. Numbers are necessary, not sufficient.
 
+`thd critic PLAN` (the last step of `all`, about 10-40 s) builds what a
+reviewer scores from the rendered MP4 alone, in `work/review/critic/`:
+- `sheet_NN.jpg`: two frames a second.
+- `phone_NN.jpg`: the first frame and the middle of every shot at 360 px wide.
+- `strip_*.jpg`: consecutive frames through every plane change, the fastest
+  move, any held frame and any late hit, with each sound cue marked on its
+  frame.
+
+It also measures:
+- one frame drawn twice by fresh renderers (they must match: FAIL means
+  something is unseeded);
+- whether the MP4 still matches the plan;
+- held frames inside moves;
+- stretches of 1.5 s where the picture holds still;
+- stamps, slaps and knocks that miss the frame where the picture jumps.
+
+`work/review/CRITIC.md` holds the rubric (score 1-10, list the worst three,
+fix, re-render, until every line is 8+) and the measurements.
+
 ## Speed (this Mac, 8 workers)
 
 A 45 s plan: autocut 2 s (transcript cached), prep about 70 s, stills about

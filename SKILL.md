@@ -30,6 +30,14 @@ with the recording's original rhythm left intact.
    -14 LUFS. See [sound.md](references/sound.md).
 6. **Prove the opening, then the whole.** Render the first 15-20 s, audit it,
    watch it at phone size with sound, fix, and only then render the full piece.
+7. **Score it as a stranger would.** `thd all` ends with the critic pass
+   (`thd critic`): contact sheets, phone-size pages and frame strips through
+   every fast move, built from the rendered MP4. Score only those frames,
+   never the plan's intent: hook, readability, motion, variety, sound,
+   accuracy, craft, each 1-10 in `work/review/CRITIC.md`. Fix the three worst
+   defects, re-render, score again until every line is 8 or more. A different
+   agent from the one that cut it scores it best (Codex cuts, Claude scores, or
+   the reverse).
 
 **Art direction lives in [art-direction.md](references/art-direction.md)**: the
 principles, the house DNA every video shares, the seven engine treatments
@@ -83,6 +91,8 @@ pipeline (`edl.py` -> `timeline.py` -> `assets.py` -> `render.py` + `sound.py` -
   least five distinct shot types appear.
 - The first-3s strip shows the hook line being spoken, readable hook text, the
   face or the hero visual, and motion already under way.
+- `work/review/CRITIC.md` is scored: every criterion 8 or more on the
+  rendered evidence, the three worst defects fixed, determinism PASS.
 - You watched and listened to the whole render at normal speed and phone size.
   If you could not, say so plainly. Numbers are necessary, not sufficient.
 - Deliver the 1080x1920 H.264/AAC review MP4 (faststart), beat sheet, SRT,

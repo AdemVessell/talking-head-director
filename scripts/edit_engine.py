@@ -20,7 +20,8 @@ Run it through scripts/thd, which picks the Python that has the engine's package
   edit_engine.py assemble PLAN    review MP4 in work/out
   edit_engine.py audit PLAN [--no-asr]   pacing/loudness audit, sync, ASR of the final audio
   edit_engine.py xcheck PLAN      X pre-posting check: calls to action, captions, title, sources, claims
-  edit_engine.py all PLAN         edit -> sound -> render -> assemble -> audit -> xcheck
+  edit_engine.py critic PLAN      evidence to score (sheets, phone pages, strips around fast moves) + determinism
+  edit_engine.py all PLAN         edit -> sound -> render -> assemble -> audit -> xcheck -> critic
 """
 import argparse, sys, time
 from pathlib import Path
@@ -31,7 +32,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("cmd", choices=["doctor", "selftest", "transcribe", "autocut", "news", "prep", "align", "inspect", "edit",
-                                    "holds", "stills", "sound", "render", "assemble", "audit", "xcheck", "all"])
+                                    "holds", "stills", "sound", "render", "assemble", "audit", "xcheck", "critic", "all"])
     ap.add_argument("target", nargs="?", help="plan file (or a recording, for transcribe and autocut)")
     ap.add_argument("--out"); ap.add_argument("--at"); ap.add_argument("--jobs", type=int, default=8)
     ap.add_argument("--proof", action="store_true"); ap.add_argument("--no-asr", action="store_true")
@@ -44,7 +45,7 @@ def main():
     if a.cmd == "doctor":  # standard library only, so it can report missing packages
         from thd_engine import doctor
         sys.exit(doctor.run())
-    from thd_engine import audit, autocut, captions, dialogue, news, prep, render, selftest, sound, xcheck
+    from thd_engine import audit, autocut, captions, critic, dialogue, news, prep, render, selftest, sound, xcheck
     from thd_engine.plan import Plan
     from thd_engine.timeline import Timeline
     t0 = time.time()
@@ -85,10 +86,12 @@ def main():
         audit.qa(plan, plan.wp("out", plan.get("name", "edit") + ".mp4"), not a.no_asr)
     elif a.cmd == "xcheck":
         sys.exit(1 if xcheck.run(plan)["fail"] else 0)
+    elif a.cmd == "critic":
+        sys.exit(1 if critic.run(plan)["fail"] else 0)
     elif a.cmd == "all":
         dialogue.build(plan); tl = Timeline(plan); captions.srt(plan, tl, plan.wp("out", "captions.srt"))
         sound.build(plan, tl); render.render(plan, a.jobs, a.proof); out = render.assemble(plan)
-        audit.holds(plan); audit.qa(plan, out, not a.no_asr); xcheck.run(plan)
+        audit.holds(plan); audit.qa(plan, out, not a.no_asr); xcheck.run(plan); critic.run(plan, out)
     print(f"[{a.cmd}] done in {time.time() - t0:.0f}s")
 
 

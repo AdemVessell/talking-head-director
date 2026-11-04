@@ -13,7 +13,7 @@ exactly as long as the line takes to appear, red marks, the marker circle, stamp
 punch-ins and the end burn. Hand-written `sfx` play on top; `sfx_mute: [kit, ...]` silences a kit.
 plan["mix"]: {"voice_lufs": -16, "lufs": -14, "voice_chain": "full|light", "fade_out": ["END-0.26", "END-0.10"]}
 """
-import subprocess
+import subprocess, zlib
 from pathlib import Path
 import numpy as np
 import soundfile as sf
@@ -158,7 +158,7 @@ def keystrokes(plan):
 def typing(plan, cue):
     """One key strike per character, each on the frame its character appears."""
     keys = keystrokes(plan); n = max(1, int(cue.get("chars", 8))); dur = float(cue.get("dur", 0.5))
-    text = cue.get("text", "x" * n); r = np.random.default_rng(int(abs(hash(text)) % 2 ** 31))
+    text = cue.get("text", "x" * n); r = np.random.default_rng(zlib.crc32(text.encode()))  # hash() changes per run
     y = np.zeros(int((dur + 0.15) * SR), np.float32)
     for k in range(1, n + 1):
         s = int(k / n * dur * SR); x = keys[int(r.integers(len(keys)))]

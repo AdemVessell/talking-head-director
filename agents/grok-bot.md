@@ -20,7 +20,9 @@ Mac, so the work happens there.
    plan, `thd prep`, `thd inspect`, `thd edit`, `thd holds`, `thd stills`,
    `thd all DIR/plan.yaml`. A 45 s video takes about 4 minutes; let each
    command finish.
-3. Deliver from the Mac's work folder (`work/out/*.mp4`, `work/review/QA.md`).
+3. Score `work/review/CRITIC.md` (written by `thd all`) from the frames it
+   lists, fix the three worst defects and re-render until every line is 8+.
+   Then deliver from the Mac's work folder (`work/out/*.mp4`, `work/review/QA.md`).
    Never re-cut a video that is already posted.
 4. If you change the engine, run `thd selftest` before and after, then commit
    in that folder with a message saying what changed and why, and push (the

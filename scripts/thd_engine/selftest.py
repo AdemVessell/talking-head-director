@@ -10,7 +10,8 @@ UNCONFIRMED stamp). Checks on the finished MP4: size and frame rate, length
 against the EDL, an audio track, picture detail on the paper shot, and sync.
 Then the news kit: `news.draft` turns the same recording into a news plan (it
 shares the prepared footage), four stills are rendered from it, and the X
-pre-posting check runs on both plans. Everything stays in
+pre-posting check runs on both plans, and the critic pass builds its evidence and draws one frame
+twice with fresh renderers (they must match). Everything stays in
 ~/.cache/thd_engine/selftest to look at. Run it before and after changing the engine.
 """
 import json, os, re, shutil, subprocess, time
@@ -19,7 +20,7 @@ import numpy as np
 import yaml
 from PIL import Image, ImageDraw, ImageFont
 
-from . import audit, autocut, captions, dialogue, news, prep, render, sound, xcheck
+from . import audit, autocut, captions, critic, dialogue, news, prep, render, sound, xcheck
 from .plan import Plan
 from .surfaces import CACHE
 from .timeline import Timeline, norm
@@ -157,6 +158,11 @@ def run(jobs=8):
     rows, xn, sheet = news_kit(d, src, plan)
     rows.append(("xcheck", not xm["fail"] and not xn["fail"],
                  f"main {xm['fail']} fail / {xm['warn']} warn, news {xn['fail']} fail / {xn['warn']} warn"))
+    cr = critic.run(plan, out)
+    det = next((r for r in cr["rows"] if r[1] == "determinism"), ("FAIL", "", "not run"))
+    rows.append(("critic", not cr["fail"] and bool(cr["sheets"] and cr["phones"] and cr["strips"]) and det[0] == "PASS",
+                 f"{len(cr['sheets'])} sheets, {len(cr['phones'])} phone pages, {len(cr['strips'])} strips, "
+                 f"{det[2].split(': ')[-1]}"))
     code = check(plan, tl, out, report, a, time.time() - t0, rows)
     print(f"  INFO  feed     {xm['preview']}")
     print(f"  INFO  news     {sheet}")
