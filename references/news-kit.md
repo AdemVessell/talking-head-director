@@ -39,8 +39,11 @@ desk · Claim stamps · The X check · Accuracy rules · Recipes
   which limits how far the camera can punch in on his face.
 - **Screenshot the evidence when you find it** (Shift-Cmd-4), uncropped.
 
-Put each story in its own folder: the recording, its screenshots, and a
-`notes.txt` that maps onto `thd news`:
+**The shared inbox:** `~/Desktop/Arkhē Claude Lab/NEWS_INBOX/`, one folder
+per story (`YYYY-MM-DD_slug/`), used by Claude and Codex alike. A story folder
+holds the recording, its screenshots, a `notes.txt` that maps onto `thd news`,
+and often a `BRIEF.md`: the research brief, with the hook, the sourced facts,
+take prompts and the posts to screenshot.
 
 ```
 headline: <the exact headline, copy-pasted>
@@ -50,8 +53,26 @@ title: GPT-6 SHIPS      # 1-3 words for the first-frame sticky
 screenshot: headline.png
 ```
 
-The editor checks every number and name against the source before handing a
-video over. Adem watches it and posts it himself.
+**Rules for the agent editing a story:**
+1. **Claim it.** Write `CLAIMED.txt` (agent name and date) in the story folder
+   before starting. If one exists, the story belongs to that agent; leave it.
+2. **Work in your own workspace, not the inbox.** Point `thd news --out` at it:
+   Claude uses `Arkhē Claude Lab/TALKING_HEAD_NEXT/<slug>`, Codex its own
+   project. Renders are large, and the inbox stays readable.
+3. **Deliver into the inbox.** Copy the final MP4 and `review/X_CHECK.md` into
+   `<story>/out/`, with a short `NOTE.md` saying what was checked and what
+   wasn't. Adem finds every finished video next to its raw recording.
+
+```
+headline: <the exact headline, copy-pasted>
+source: The Verge · Nov 4
+status: reported        # confirmed | reported | unconfirmed  (the stamp)
+title: GPT-6 SHIPS      # 1-3 words for the first-frame sticky
+screenshot: headline.png
+```
+
+The editor checks every number and name against the source before delivering.
+Adem watches it and posts it himself.
 
 ## One command
 

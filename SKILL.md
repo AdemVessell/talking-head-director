@@ -106,6 +106,9 @@ agent, so:
   commit and push to the private backup, `AdemVessell/talking-head-director`
   (`git -C <this folder> commit -am "what changed and why"`, then
   `git -C <this folder> push`). Never edit a copy of this folder.
+- News stories arrive in the shared inbox `~/Desktop/Arkhē Claude Lab/NEWS_INBOX/`.
+  Claim a story, edit it in your own workspace, and deliver into its `out/` folder
+  ([news-kit.md](references/news-kit.md)).
 
 ## Edit engine (one plan file per video)
 
