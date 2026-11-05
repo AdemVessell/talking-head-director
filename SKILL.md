@@ -97,6 +97,10 @@ pipeline (`edl.py` -> `timeline.py` -> `assets.py` -> `render.py` + `sound.py` -
   If you could not, say so plainly. Numbers are necessary, not sufficient.
 - Deliver the 1080x1920 H.264/AAC review MP4 (faststart), beat sheet, SRT,
   audit report, and a short note: what changed, what was not checked.
+- Once Adem approves or posts a cut, put a copy where he finds every final:
+  `cp -c -p OUT.mp4 "$HOME/Desktop/FINAL VIDEOS/1 Talking heads/YYYY-MM-DD Title - Agent.mp4"`
+  (`-c` makes an APFS clone, which takes no extra disk space). Add its row to
+  `INDEX.md` in that folder. One file per video, replacing an older version.
 
 ## One shared copy, every agent
 
