@@ -34,7 +34,7 @@ Deltas from the uploaded port, and why:
 - scripts/thd and scripts/voice_chain.sh are executable. The uploaded zip did not keep that bit
 - sticky headline size 80 -> 96. The news opening title measured 13.51 px at 390 px feed width (printed as 14, under the check). After the change the same check reads 16 px and 20 px.
 - LICENSE is MIT for owner-written code, copyright Adem Vessell. Third-party notices are unchanged.
-- scripts/aligned and examples/source-aligned: the source-aligned edit (story cut, exact words, same-scale waveform, workshop mat, tracked mark, labelled diagram, preview gate). Worker default is 3. thd auto is not this path.
+- scripts/aligned: a segment list, mapped words, and a preview gate. Waveform, colour tracking, and the diagram are optional and are omitted when their keys are absent. examples/source-aligned/talk is the plain case. Worker default is 3. thd auto is not this path.
 - sidecar copyright lines for the two Apache fonts, copied from the font name tables
 - .venv/ ignored
 

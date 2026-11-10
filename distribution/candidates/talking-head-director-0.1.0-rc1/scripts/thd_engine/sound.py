@@ -357,7 +357,7 @@ def build(plan, tl):
     mix = plan.get("mix", {})
     chain = str(SCRIPTS / "voice_chain.sh")
     # "full": cleanup chain for raw recordings; "light": loudness only, for audio that is
-    # already produced (downloads) or where relative levels are the evidence (a tap test)
+    # already produced, or where the edit must keep the source's relative levels.
     args = [str(mix.get("voice_lufs", -16))] + (["--mix"] if mix.get("voice_chain", "full") == "light" else [])
     subprocess.run(["bash", chain, str(plan.wp("prep", "dialogue_edit.wav")), str(plan.wp("render", "voice.wav"))] + args,
                    check=True)

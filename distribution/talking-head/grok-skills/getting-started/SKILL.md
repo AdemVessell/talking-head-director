@@ -24,7 +24,7 @@ copyright Adem Vessell. Third-party terms are not MIT.
 When the release exists, the archive name is
 `talking-head-director-0.1.0-rc1.tar.gz` and its SHA256 must be exactly:
 
-bd7d7149daecdc3a5b7dd974cc2dd4d16f2771bd8f9b7f59bd1a570d420abafa
+761e2accd3b621c586e15f960061d61505b8ab0966e36484ed3d73477a9e3dc6
 
 A different hash means a different file. Do not install it. The first prep
 downloads Whisper `medium.en` (about 1.5 GB). That is model weights, not a

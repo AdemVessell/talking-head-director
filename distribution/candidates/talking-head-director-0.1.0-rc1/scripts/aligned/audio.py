@@ -2,8 +2,8 @@
 
 One gain for the whole edit. Six-millisecond fades only at speech cuts.
 Room-tone segments are real spans from the same file, crossfaded under the joins.
-A true-peak limiter, if asked for, starts at one source time inside one segment
-and does not touch the evidence passages before that time.
+A true-peak limiter, if the plan asks for one, starts at one source time
+inside one segment. Audio before that time stays at the one gain.
 """
 import subprocess
 import numpy as np
@@ -66,7 +66,7 @@ def build(edl, audio, gain_db, tail_room_src=None):
 
 
 def limit_tail(y, edl, sr=SR):
-    """Limiter only from a configured source time. Evidence before that point stays at the one gain."""
+    """Limiter only from a configured source time. Audio before that point stays at the one gain."""
     spec = edl.plan.get("limiter") or {}
     if not spec:
         return y

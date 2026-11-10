@@ -138,7 +138,7 @@ def align(plan, model="medium.en"):
     m = stable_whisper.load_model(model, device="cpu")
     out = {}
     for s in plan["segments"]:
-        if not s["text"].strip():  # a sound-only segment (taps, a demo): no words to align
+        if not s["text"].strip():  # a sound-only segment: no words to align
             out[s["id"]] = []; print(s["id"], "(no words)"); continue
         a, b = s["in"] - 0.20, s["out"] + 0.20
         seg = audio[int(max(0, a) * sr):int(b * sr)]
@@ -147,7 +147,7 @@ def align(plan, model="medium.en"):
         words = [{"word": w.word.strip(), "start": round(max(0, a) + w.start, 3), "end": round(max(0, a) + w.end, 3)}
                  for x in r.segments for w in x.words]
         db = envelope(audio, sr); thr = speech_threshold(db)
-        for w in words:  # a word ASR stretched over trailing taps or breath ends where the voice ends
+        for w in words:  # a word the aligner stretched past the voice into trailing quiet
             if w["end"] - w["start"] > 0.8:
                 i0, i1 = int((w["start"] + 0.15) / 0.01), int(w["end"] / 0.01)
                 quiet = np.where(db[i0:i1] < thr)[0]

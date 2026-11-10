@@ -13,7 +13,7 @@ is not live. Do not fetch it until that repository and tag exist.
 
 The archive SHA256 the install must have matched is:
 
-bd7d7149daecdc3a5b7dd974cc2dd4d16f2771bd8f9b7f59bd1a570d420abafa
+761e2accd3b621c586e15f960061d61505b8ab0966e36484ed3d73477a9e3dc6
 
 ## What you are doing
 
@@ -24,9 +24,11 @@ Read `docs/WORKFLOW.md` inside the unpacked engine. Use these commands, not a
 tour of the rest of the filesystem:
 
 `thd auto` drafts a cut from a transcript. A source-aligned edit is a different
-path: `docs/SOURCE_ALIGNED.md` and `examples/source-aligned/`. The story is a
-segment list, captions are the aligned words, and full render waits until the
-preview of that list is approved. The example is synthetic.
+path: `docs/SOURCE_ALIGNED.md`. The required input is the recipient's own
+video, a words file, and a segment list. Waveform, colour tracking, and the
+diagram are optional. `examples/source-aligned/talk/` is the plain synthetic
+case. It is not a face and it is not proof of a real edit. Full render waits
+until that segment list is approved.
 
 ```bash
 bash scripts/thd styles

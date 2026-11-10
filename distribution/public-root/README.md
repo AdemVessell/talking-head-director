@@ -24,7 +24,9 @@ installing. A bot must not fetch them while the release is absent.
 Nothing in these packages posts, uploads, or requires the author's computer,
 private repositories, or private recordings. The talking-head package does
 not include the private art notes, the Blender diorama kit, or any recording
-of a person. The first `prep` downloads the Whisper `medium.en` weights
+of a person. `thd auto` is the presenter path. `scripts/aligned` cuts a video
+you supply by a segment list. A waveform, a colour track, and a diagram are
+optional keys on that path, not a required structure. The first `prep` downloads the Whisper `medium.en` weights
 (about 1.5 GB). That download is model weights, not a paid API.
 
 A synthetic selftest is how the engine checks itself. It is not proof of how

@@ -13,6 +13,11 @@ words, designed sound, then a loudness, sync and pre-posting check.
 
 `thd auto --help` and `scripts/thd_engine/auto.py` describe the brief. The tool never posts.
 
+A different path cuts a video you already have. `docs/SOURCE_ALIGNED.md` takes
+that file, a words list, and a segment list in story order. Waveform comparison,
+colour tracking, and a diagram are optional keys. They are not part of the
+command, and the example at `examples/source-aligned/talk/` uses none of them.
+
 Needs Python 3.9+, the packages in requirements.txt, and ffmpeg. Runs on macOS and Linux, CPU only.
 Linux install is isolated: `docs/INSTALL-linux-cpu.md` and `scripts/install-linux-cpu.sh`.
 The edit itself: `docs/WORKFLOW.md`. Rights and third-party notices: `NOTICES.md`.

@@ -207,10 +207,10 @@ class Compose:
         w, h = 1000, 720
         im = Image.fromarray(self.paper(w, h, 31).astype(np.uint8)).convert("RGBA")
         d = ImageDraw.Draw(im)
-        d.text((32, 24), spec.get("title", "TWO PATHS"), font=self.font("menlo_bold", 34), fill=INK)
+        d.text((32, 24), spec.get("title", "DIAGRAM"), font=self.font("menlo_bold", 34), fill=INK)
         d.text((32, 68), spec.get("subtitle", "simplified illustration · not to scale"),
                font=self.font("typewriter", 24), fill=PENCIL)
-        rows = spec.get("rows") or [{"label": "DIRECT"}, {"label": "SPRUNG"}]
+        rows = spec.get("rows") or [{"label": "1"}, {"label": "2"}]
         if t >= cues["row1"]:
             d.text((32, 140), "1  " + rows[0]["label"], font=self.font("caption_heavy", 40), fill=INK)
             d.rounded_rectangle((80, 230, 900, 280), radius=16, outline=INK, width=4)
@@ -227,9 +227,14 @@ class Compose:
         return np.array(im, np.float32)
 
     def track_mark(self, img):
-        spec = self.plan.get("track") or {}
+        spec = self.plan.get("track")
+        if not spec:
+            return None
         hsv = cv2.cvtColor(img.astype(np.uint8), cv2.COLOR_RGB2HSV)
-        m = ((hsv[..., 0] < 12) | (hsv[..., 0] > 170)) & (hsv[..., 1] > 120) & (hsv[..., 2] > 80)
+        h_max = int(spec.get("h_max", 12))
+        s_min = int(spec.get("s_min", 120))
+        v_min = int(spec.get("v_min", 80))
+        m = ((hsv[..., 0] < h_max) | (hsv[..., 0] > 170)) & (hsv[..., 1] > s_min) & (hsv[..., 2] > v_min)
         ys, xs = np.nonzero(m)
         if len(xs) < 30:
             return None
@@ -262,23 +267,24 @@ class Compose:
         sh, sw = src.shape[:2]
         dst = self.mat()[:H, :W].copy()
         seg = self.edl.seg_at(t)
-        evidence = seg["id"] in set(self.plan.get("evidence_segments") or [])
-        pr = self.print_of(src, (0, 0, sw, sh), 780 if evidence else 860)
-        self.over(dst, pr, 540, 820 if evidence else 700, -0.6)
+        labelled = bool(seg.get("card"))
+        pr = self.print_of(src, (0, 0, sw, sh), 780 if labelled else 860)
+        self.over(dst, pr, 540, 820 if labelled else 700, -0.6)
         self.tape(dst, 220, 430, -28, 3)
         self.tape(dst, 860, 430, 24, 4)
-        if evidence and seg["card"]:
+        if labelled:
             self.over(dst, self.card(seg["card"], seg["sub"], True, 11), 280, 1280, -1.5)
+        if self._wave_on(seg):
             wave = self.wave_card(t)
             if wave is not None:
                 self.over(dst, wave, 540, 1620, 0.4)
-        else:
-            cues = self._cues()
-            if cues and t >= cues["row1"]:
-                self.over(dst, self.diagram(t, cues), 540, 1180, 0.4, 0.72)
+        cues = self._cues()
+        if cues and not labelled and t >= cues["row1"]:
+            self.over(dst, self.diagram(t, cues), 540, 1180, 0.4, 0.72)
+        if not seg.get("room") and not labelled:
             self.draw_captions(dst, t)
         mark = self.track_mark(src)
-        if mark and evidence:
+        if mark:
             px = 540 + (mark[0] / sw - 0.5) * 780
             py = 820 + (mark[1] / sh - 0.5) * (780 * sh / sw)
             yy, xx = np.ogrid[:H, :W]
@@ -286,6 +292,10 @@ class Compose:
             dst[(rr > 28 ** 2) & (rr < 40 ** 2)] = VERM
         out = self.finish.apply(np.clip(dst, 0, 255).astype(np.uint8), n)
         return out
+
+    def _wave_on(self, seg):
+        rows = (self.plan.get("waveform") or {}).get("rows") or []
+        return len(rows) >= 2 and seg["id"] in {r["segment"] for r in rows}
 
     def _cues(self):
         spec = (self.plan.get("diagram") or {}).get("cues")

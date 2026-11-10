@@ -54,6 +54,14 @@ Unknown line ids stop the run. `keep` reorders. The default cut removes
 fillers, immediate repeats, and long pauses, and it does not drop a sentence
 on its own.
 
+## A segment list, instead of `thd auto`
+
+`scripts/aligned/render.py` cuts one source by the spans in a plan. Story
+order is the list order. Captions come from a words file you supply. See
+`docs/SOURCE_ALIGNED.md`. A waveform, a colour track, and a diagram are
+drawn only when that plan names them. The example under
+`examples/source-aligned/talk/` is speech reordered, with none of those.
+
 ## Captions
 
 One to four words per card, at most 18 characters on a line, broken at

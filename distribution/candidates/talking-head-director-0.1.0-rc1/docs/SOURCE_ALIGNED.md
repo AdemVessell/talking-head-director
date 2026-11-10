@@ -1,29 +1,36 @@
 # Source-aligned workflow
 
-`thd auto` drafts a vertical edit from one recording. Some cuts are not that
-draft. They are a story cut written against the source clock: named segments,
-exact words, evidence audio taken from the source without a separate gain per
-passage, then a picture built from those times.
+`scripts/aligned/render.py` cuts one source video by a segment list.
+The list can be any spans of that file, in any order. Nothing in the
+command requires a comparison, a diagram, or a tracked mark.
 
-That path lives in `scripts/aligned/` and is exercised by
-`examples/source-aligned/`. Read that README before treating `thd auto` as the
-whole method.
+## Supported
 
-The example is synthetic. It does not show how a real recording will look or
-sound. A waveform comparison is only as honest as the two windows of the same
-file. A diagram in this path is an illustration and says so. A colour tracker
-follows a mark in the picture; it does not know what the mark is.
+- Any segment list. Edit order is the story. Source order is not.
+- Captions from a words file mapped through those segments. Words outside a
+  segment are dropped. Words are not invented here.
+- A preview of the named preview segments, then `approve`, then `full`.
+  `full` exits if the approval file is missing or the segment list changed.
+- One gain for the whole soundtrack. A limiter runs only when the plan names
+  the source time it may start.
+- Optional waveform comparison, optional colour tracking, optional diagram.
+  Each is absent unless its key is in the plan. A diagram's words come from
+  the plan, and the card says it is not to scale.
+- Workshop mat, paper, and tape from the engine. Worker default is 3.
 
-Preview is a gate. Full render checks `work/PREVIEW_APPROVED` against the
-segment list. Watching the preview is a person's job. The synthetic test
-approves only after it has checked that a preview file exists, and it says so.
+## Not supported
 
-Worker default for the engine and for this renderer is 3. A default of 8 has
-run out of memory on a small machine.
+- Speech recognition. Bring `{w, s, e}` times. `thd auto` is the other path,
+  and it expects a presenter and a brief.
+- A face, a shot ladder, or the house styles. A frame with no face is valid.
+- A claim that a synthetic run shows a real recording.
+- Treating a waveform, a colour blob, or a diagram as a measurement.
+  A waveform is drawn only for two or more windows of the same file.
+- The author's recordings or a particular product test.
 
-`bash scripts/thd` is the invocation when the executable bit is missing.
-The bit is set in this candidate. Either form runs the same file.
+`examples/source-aligned/talk/` is the example: speech, reordered, captions,
+preview gate, and none of the optional overlays.
 
-Selftest speech is a stand-in voice. If `espeak-ng` on the machine is a shell
-script that calls ffmpeg's flite voice, doctor says so. That stand-in is not
-espeak-ng and it is not a production voice.
+`bash scripts/thd` is the launcher when the executable bit is missing.
+If `espeak-ng` is a shell script that calls ffmpeg flite, doctor says it is
+a selftest stand-in, not espeak-ng. The fixture refuses to use that stand-in.
