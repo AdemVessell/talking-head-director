@@ -1,0 +1,136 @@
+   0.60-   2.65  Here is a quick test of the edit engine.
+   3.90-   6.00  First, write the title on the card.
+   7.20-   8.70  Then ask a question about it.
+  10.04-  10.98  That is the whole idea.
+autocut /home/ubuntu/.cache/thd_engine/selftest/source.mp4
+27 words, 0 removed (0 fillers, 0 repeats), 5 segments; speech 10.4s -> 8.8s
+-> /home/ubuntu/.cache/thd_engine/selftest/plan_draft.yaml
+ranges: {'r1': [0.0, 12.48]}
+track r1: fixed face (x 0.5, eye 0.42, width 0.3), no detector
+A Here[0.58] is[0.76] a[0.94] quick[1.04] test[1.40] of[1.68] the[1.86] edit[2.00] engine.[2.22]
+B First,[4.17]
+C write[4.43] the[4.71] title[4.99] on[5.29] the[5.53] card.[5.67]
+D Then[7.18] ask[7.32] a[7.62] question[7.82] about[8.18] it.[8.62]
+in:  -20.23 LUFS, TP -0.94 dBTP (after chain, before norm)
+out: I:         -16.4 LUFS
+out: Peak:       -1.5 dBFS
+in:  -16.57 LUFS, TP -0.13 dBTP (after chain, before norm)
+out: I:         -15.5 LUFS
+out: Peak:       -1.5 dBFS
+E That[10.12] is[10.16] the[10.38] whole[10.52] idea.[10.78]
+total 9.533s (286 frames), room tone 12.37-14.37
+     A src    0.46-   2.79  edit   0.000-  2.330  picture   0.000-  2.563
+     B src    3.75-   4.30  edit   2.563-  3.113  picture   2.563-  3.180
+     C src    4.39-   6.10  edit   3.180-  4.890  picture   3.180-  5.123
+     D src    7.06-   8.96  edit   5.123-  7.023  picture   5.123-  7.257
+     E src    9.92-  11.28  edit   7.257-  8.617  picture   7.257-  8.617
+# Audit: selftest.mp4
+
+9.53s, 1080x1920 @ 30.0 fps
+
+- **PASS** median hold: 1.18s (target <= 2.5s)
+- **PASS** longest hold: 2.57s (target <= 6.0s unless marked intentional)
+- **WARN** first visual change: 2.57s (target <= 2s)
+- **WARN** dead air: 4 pauses >= 0.25s, 1.56s total (25.2/min, target <= 4/min)
+- **WARN** loudness: -15.7 LUFS, -1.4 dBTP (target -14 +/-1, TP <= -1)
+- **PASS** speech density: 169.9 wpm (target 155-190 after tightening)
+- **PASS** filler candidates: 0 hits {}
+
+Longest holds (start s, length s): []
+Longest pauses (start s, length s): [(8.62, 0.62), (4.86, 0.32), (6.98, 0.32), (2.3, 0.3)]
+
+Look at these before judging: sheet-01.jpg, first-3s.jpg
+Holds count cuts and large changes; slow drifts and gentle reframes don't register, so read
+long holds against the shot timeline. With --words, trust the word-gap pauses over the audio
+ones when music or room tone fills the gaps.
+Numbers measure rhythm, not taste. A PASS here is necessary, not sufficient.
+
+report: /home/ubuntu/.cache/thd_engine/selftest/work/review/audit/audit.md
+rendered 286 frames in 6 chunks
+-> /home/ubuntu/.cache/thd_engine/selftest/work/out/selftest.mp4
+s00_face: 2.27-2.56s (0.30s silent on his face) -> hold_00_s00_face.jpg
+s00_face~1: 2.56-2.96s (0.40s silent on his face) -> hold_01_s00_face~1.jpg
+s01_doc: 4.85-5.12s (0.28s silent on his face) -> hold_02_s01_doc.jpg
+s02_split: 6.99-7.26s (0.27s silent on his face) -> hold_03_s02_split.jpg
+s03_desk: 8.62-9.53s (0.91s silent on his face) -> hold_04_s03_desk.jpg
+# Audit: selftest.mp4
+
+9.53s, 1080x1920 @ 30.0 fps
+
+- **PASS** median hold: 1.18s (target <= 2.5s)
+- **PASS** longest hold: 2.57s (target <= 6.0s unless marked intentional)
+- **WARN** first visual change: 2.57s (target <= 2s)
+- **WARN** dead air: 4 pauses >= 0.25s, 1.56s total (25.2/min, target <= 4/min)
+- **WARN** loudness: -15.7 LUFS, -1.4 dBTP (target -14 +/-1, TP <= -1)
+- **PASS** speech density: 169.9 wpm (target 155-190 after tightening)
+- **PASS** filler candidates: 0 hits {}
+
+Longest holds (start s, length s): []
+Longest pauses (start s, length s): [(8.62, 0.62), (4.86, 0.32), (6.98, 0.32), (2.3, 0.3)]
+
+Look at these before judging: sheet-01.jpg, first-3s.jpg
+Holds count cuts and large changes; slow drifts and gentle reframes don't register, so read
+long holds against the shot timeline. With --words, trust the word-gap pauses over the audio
+ones when music or room tone fills the gaps.
+Numbers measure rhythm, not taste. A PASS here is necessary, not sufficient.
+
+
+## Sync
+
+Final audio vs dialogue edit: +0.00 ms (target: within one frame).
+
+
+## What the finished audio says (ASR)
+
+here is a quick test of the edit engine first write the title on the card then ask a question about it that is the whole idea
+
+
+No differences from the plan's text.
+
+x-check selftest
+  PASS  no calls to action               none said or printed
+  PASS  every word captioned or on paper 23 captioned, 4 on paper, 27 words
+  PASS  caption size at feed width       29 px type at 390 px wide
+  PASS  title on the first frame         title: text 17 px tall at 390 px wide
+  PASS  first word                       spoken at 0.12 s
+  PASS  sources named                    evidence
+  INFO  claims to verify                 1 listed in X_CHECK.md
+  PASS  file                             selftest.mp4, 23.4 MB, 9.5 s
+7 pass, 0 warn, 0 fail -> /home/ubuntu/.cache/thd_engine/selftest/work/review/X_CHECK.md
+autocut /home/ubuntu/.cache/thd_engine/selftest/source.mp4
+27 words, 0 removed (0 fillers, 0 repeats), 5 segments; speech 10.4s -> 8.8s
+-> /home/ubuntu/.cache/thd_engine/selftest/news/plan_draft.yaml
+news plan -> /home/ubuntu/.cache/thd_engine/selftest/news/plan.yaml  (5 lines, evidence on C, 5 shots, colour journey)
+x-check news
+  PASS  no calls to action               none said or printed
+  PASS  every word captioned or on paper 23 captioned, 4 on paper, 27 words
+  PASS  caption size at feed width       29 px type at 390 px wide
+  WARN  title on the first frame         title: text 14 px tall at 390 px wide (aim for 14+)
+  PASS  first word                       spoken at 0.12 s
+  PASS  sources named                    evidence
+  INFO  claims to verify                 1 listed in X_CHECK.md
+  INFO  file                             not rendered yet: file checks skipped
+5 pass, 1 warn, 0 fail -> /home/ubuntu/.cache/thd_engine/selftest/news/work/review/X_CHECK.md
+critic selftest
+  INFO  evidence                     2 sheets, 1 phone pages, 1 strips -> review/critic/
+  PASS  determinism                  frame 142 (4.73 s) drawn twice: identical
+  PASS  the MP4 is current           frame 142 differs from the engine by at most 18 levels in any patch
+  PASS  no stutter inside a move     no held frame between moving ones
+  PASS  the picture moves            no still stretch of 1.5 s
+  PASS  hits on their frames         3 hits checked
+5 pass, 0 warn, 0 fail -> /home/ubuntu/.cache/thd_engine/selftest/work/review/CRITIC.md: score it, fix the worst three, re-render
+
+selftest PASS  (154 s)
+  PASS  video    1080x1920 @ 30 fps
+  PASS  length   9.53 s (EDL 9.53 s)
+  PASS  audio    AAC track
+  PASS  picture  paper shot at 4.2 s, detail 91
+  PASS  sync     +0.00 ms
+  PASS  news     5 shots (face P / face W / doc / face W ...), stills detail 46+
+  PASS  xcheck   main 0 fail / 0 warn, news 0 fail / 1 warn
+  PASS  critic   2 sheets, 1 phone pages, 1 strips, identical
+  INFO  asr      no differences from the plan's text
+  INFO  output   /home/ubuntu/.cache/thd_engine/selftest/work/out/selftest.mp4
+  INFO  feed     /home/ubuntu/.cache/thd_engine/selftest/work/review/x_feed_preview.png
+  INFO  news     /home/ubuntu/.cache/thd_engine/selftest/news/work/review/news_sheet.jpg
+SELFTEST:0

@@ -1,0 +1,17 @@
+#!/bin/bash
+# The edit engine from any folder or agent:  thd doctor | thd selftest | thd <command> PLAN
+# Runs edit_engine.py with the first Python that has its packages: $THD_PYTHON, then
+# Apple's /usr/bin/python3 (where they are installed), then python3 on the PATH.
+here="$(dirname "$(readlink -f "$0")")"
+need='import importlib.util as u, sys; sys.exit(any(u.find_spec(m) is None for m in ("numpy", "cv2", "PIL", "soundfile", "yaml", "stable_whisper")))'
+for py in "${THD_PYTHON:-}" /usr/bin/python3 python3; do
+  [ -n "$py" ] && command -v "$py" >/dev/null 2>&1 || continue
+  "$py" -c "$need" 2>/dev/null && exec "$py" "$here/edit_engine.py" "$@"
+done
+if [ "$1" = doctor ]; then  # no complete Python: let the doctor say what is missing
+  exec "${THD_PYTHON:-/usr/bin/python3}" "$here/edit_engine.py" doctor
+fi
+echo "thd: no Python here has the engine's packages. Install them with" >&2
+echo "  /usr/bin/python3 -m pip install --user -r \"$here/../requirements.txt\"" >&2
+echo "(or set THD_PYTHON to an interpreter that has them), then run: thd doctor" >&2
+exit 1

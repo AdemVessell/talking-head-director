@@ -1,0 +1,20 @@
+talking-head-director-0.1.0-rc1 doctor
+  PASS  python                 3.12.3  isolated venv
+  PASS  numpy                  2.0.2
+  PASS  opencv-contrib-python  4.13.0
+  PASS  Pillow                 11.3.0
+  PASS  soundfile              0.13.1
+  PASS  PyYAML                 6.0.3
+  PASS  stable-ts              2.19.1
+  PASS  openai-whisper         20250625
+  PASS  torch                  2.8.0+cpu
+  PASS  ffmpeg                 6.1.1-3ubuntu5
+  PASS  fonts                  21 roles: 21 open-licensed, 0 system
+  WARN  whisper model          medium.en not cached before the first prep
+  PASS  face detector          OpenCV Haar cascade
+  PASS  sound kit              0 library sounds, 13 synthesised
+  PASS  cache                  writable
+  PASS  selftest voice         espeak-ng
+  PASS  machine                4 cores
+16 pass, 1 warn, 0 fail
+After selftest the Whisper weights were cached. That WARN is the state before the first download.

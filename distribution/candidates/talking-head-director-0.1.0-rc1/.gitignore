@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+examples/source-aligned/source.mp4
+examples/source-aligned/source.wav
+examples/source-aligned/words_src.json
+examples/source-aligned/work/
+examples/source-aligned/_w.wav
+examples/source-aligned/talk/source.mp4
+examples/source-aligned/talk/source.wav
+examples/source-aligned/talk/words_src.json
+examples/source-aligned/talk/work/
+examples/source-aligned/talk/_w.wav
+PRIVATE_DO_NOT_SHIP/
+_test_outputs/

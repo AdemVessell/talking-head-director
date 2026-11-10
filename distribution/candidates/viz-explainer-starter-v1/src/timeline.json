@@ -1,0 +1,5 @@
+{"duration":4,"fps":30,
+ "beats":[{"id":"establish","t":[0,1.4]},{"id":"travel","t":[1.4,2.8]},{"id":"resolve","t":[2.8,4]}],
+ "text":[
+  {"id":"a","text":"Three shapes.","font":"serif","in":0.15,"out":1.5,"pos":"top"},
+  {"id":"b","text":"ONE ROW","font":"mono","in":2.7,"out":4.5,"pos":"top"}]}

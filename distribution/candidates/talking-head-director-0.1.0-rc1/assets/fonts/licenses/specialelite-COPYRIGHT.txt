@@ -1,0 +1,6 @@
+Copyright (c) 2010 by Brian J. Bonislawsky DBA Astigmatic (AOETI). All rights reserved.
+Available under the Apache 2.0 licence.
+http://www.apache.org/licenses/LICENSE-2.0.html
+
+Copied from the name table of SpecialElite-Regular.ttf as bundled in this candidate.
+The Apache license text is licenses/specialelite-APACHE-2.0.txt.

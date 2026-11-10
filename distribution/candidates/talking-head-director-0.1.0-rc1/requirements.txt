@@ -1,0 +1,20 @@
+# Python packages for the edit engine. Versions are the set proven on macOS
+# (2026-11-03, Apple's /usr/bin/python3 3.9.6). On Linux, install them into an
+# isolated virtualenv with scripts/install-linux-cpu.sh (see docs/INSTALL-linux-cpu.md).
+# That script installs torch from the CPU wheel index. Do not use a system-wide
+# `pip install --user` on a shared machine.
+# Then run `scripts/thd doctor`. Outside Python the engine needs (doctor checks each):
+#   ffmpeg + ffprobe with libx264, prores_ks, aac and drawtext;
+#   the open fonts in assets/fonts (macOS system fonts are an optional fallback, not shipped);
+#   the Whisper medium.en model (downloads on first use, about 1.5 GB);
+#   optional Final Cut Pro sounds (not shipped; missing cues are synthesised).
+numpy==2.0.2
+opencv-contrib-python==4.13.0.92
+Pillow==11.3.0
+soundfile==0.13.1
+PyYAML==6.0.3
+stable-ts==2.19.1
+openai-whisper==20250625
+torch==2.8.0
+# optional, only for face_track.py --model face_landmarker.task (the default detector is OpenCV's):
+# mediapipe==0.10.35

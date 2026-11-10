@@ -1,0 +1,44 @@
+channel: public-distribution-candidate
+name: talking-head-director
+version_label: 0.1.0-rc1
+status: candidate, not a release
+source: uploaded public-port archive 01 (talking-head-bot-public), sha256 68807f28b33fc4aad6efc00f435a819cd3c6c1e84d0aa37e11a5cff815197b72
+private_repo_base_compared: e463662
+intended_repository: https://github.com/AdemVessell/bot-video-engines
+intended_release_tag: rc1
+intended_asset_url: https://github.com/AdemVessell/bot-video-engines/releases/download/rc1/talking-head-director-0.1.0-rc1.tar.gz
+release_url_is_live: no
+owner_code_license: MIT
+owner_code_copyright: Adem Vessell
+
+This tree is a candidate built from the newer public port, not from the older
+private skill tree. The private development repository is not part of this
+archive. There is no .git history in the archive.
+
+Excluded from this candidate, on purpose:
+- PRIVATE_DO_NOT_SHIP (private references and the Blender diorama kit)
+- private skill wrappers (SKILL.md, agents/*) from the development repo
+- __pycache__ and *.pyc
+- _test_outputs, including sheet_real.jpg (a real presenter's likeness)
+- the two large synthetic test MP4s (not required to install or selftest)
+- personal absolute paths, recordings, and credentials (none were in port 01's source)
+
+Deltas from the uploaded port, and why:
+- docs/WORKFLOW.md and docs/INSTALL-linux-cpu.md (the port's own notes asked for public docs and a Linux run)
+- scripts/install-linux-cpu.sh (isolated venv; torch and torchaudio pinned to the 2.8.0 CPU wheels so a later resolve cannot swap in a CUDA torch)
+- requirements.txt comments now match that install; the version pins are unchanged
+- comments that named references/*.md now name docs/WORKFLOW.md, because those files are not in this package
+- a news-draft comment no longer tells the editor to add a diorama from a file that was withheld
+- doctor treats a 2.8.0+cpu torch build as the 2.8.0 pin
+- autocut segment in/out times are plain floats. NumPy 2 leaves np.float64 from round(), and PyYAML 6.0.3 cannot dump that. The Mac notes say selftest passed there; this Linux run failed until the cast
+- scripts/thd and scripts/voice_chain.sh are executable. The uploaded zip did not keep that bit
+- sticky headline size 80 -> 96. The news opening title measured 13.51 px at 390 px feed width (printed as 14, under the check). After the change the same check reads 16 px and 20 px.
+- LICENSE is MIT for owner-written code, copyright Adem Vessell. Third-party notices are unchanged.
+- scripts/aligned: a segment list, mapped words, and a preview gate. Waveform, colour tracking, and the diagram are optional and are omitted when their keys are absent. examples/source-aligned/talk is the plain case. Worker default is 3. thd auto is not this path.
+- sidecar copyright lines for the two Apache fonts, copied from the font name tables
+- .venv/ ignored
+
+Owner-written code is MIT, copyright Adem Vessell. The intended public
+repository is AdemVessell/bot-video-engines, release tag rc1. That repository
+is not live. The URL above is the intended asset location, not a working
+download.

@@ -1,0 +1,17 @@
+# Plain story cut. No waveform, no colour track, no diagram, no passage cards.
+# The later source line is the opening. Captions are the fixture's own words.
+name: synthetic-talk
+source: source.mp4
+words: words_src.json
+gain_db: 0
+preview_segments: [opening]
+caption_groups: auto
+segments:
+  - id: opening
+    src_in: 3.10
+    src_out: 4.80
+    role: speech
+  - id: detail
+    src_in: 0.40
+    src_out: 2.20
+    role: speech
