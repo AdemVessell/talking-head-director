@@ -37,17 +37,24 @@ Whisper `medium.en` downloaded 1.42 GB on the first run.
 
 ## Viz Draft master
 
-File: the original 4.0 s Draft render, 540x676, before any camera experiment.
-QA with a clean library path: PASS, -14.6 LUFS, true peak -1.9 dBTP, decode
-clean. A tmux library-path warning on ffmpeg's stderr can make `qa/check.mjs`
-report a decode error; that was the environment, not the file.
+The original camera keys are unchanged. The paper cards were the problem:
+their bottoms went through the stage, the nearest centers sat off the stage
+disc, and they filled the foreground so the frame cut them. A sampled path
+of that original layout kept the camera origin 1.43 from the nearest card
+and the nearest corner 3.44 in front of the near plane (0.02), so the lens
+was not inside those boxes. The picture still read as a cut through paper.
 
-A video model watched the whole 4 seconds. It read "Three shapes." and
-"ONE ROW". It reported the camera passing through the paper cards between
-about 0.5 s and 1.75 s. A later camera nudge was rendered and watched; the
-model still reported the cards intersecting the camera. The nudge was
-reverted. The archive keeps the original camera. The model could not hear
-the synthesised bed. ffmpeg measured the loudness above.
+The cards now stand on the stage in a receding row to the right of the three
+shapes (`src/stageLayout.ts`). `qa/camera-clearance.mjs` on the final layout:
+minimum distance from the camera and its near plane to a card 2.385, minimum
+corner depth 2.367, no card below the stage or off the disc, at least 6 cards
+inside the frame during the travel, and a 0.103 gap from the hero shapes.
+Required clearance is 0.5.
+
+The new Draft is 4.0 s, 540x676. QA PASS, -14.6 LUFS, true peak -1.9 dBTP.
+Stills at 1.0 s and 1.5 s show the row standing on the stage beside the
+cylinder, not sliced open. The parent still needs to watch this file. I did
+not hear it.
 
 ## What this does not clear
 

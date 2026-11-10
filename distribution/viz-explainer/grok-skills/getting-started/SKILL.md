@@ -23,7 +23,7 @@ refuses while `PUBLISHED` is `no`. Do not rebuild the starter from
 When the release exists, the archive name is `viz-explainer-starter-v1.tar.gz`
 and its SHA256 must be exactly:
 
-22e948b5cf7cd6255a261d9356198d878ae0f04a95c353ac7854cd6d1f119fc5
+8751468f201fb96738de47818060783170aac14bfd6f66a3eb37eae81c4468ba
 
 A different hash means a different file. Do not install it. Owner-written
 code is MIT, copyright Adem Vessell. Remotion is not MIT.

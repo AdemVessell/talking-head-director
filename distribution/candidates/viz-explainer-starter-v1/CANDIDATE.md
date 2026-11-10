@@ -55,6 +55,12 @@ IBM Plex reserves the font name "Plex". The files are unmodified. See `ASSETS.md
 Owner-written code is MIT, copyright Adem Vessell. Remotion stays under
 `LICENSES/REMOTION-LICENSE.md`. The fonts stay SIL OFL 1.1.
 
+The paper cards stand on the stage in a receding row (`src/stageLayout.ts`).
+The camera keys are the original ones. `node --experimental-strip-types qa/camera-clearance.mjs`
+fails if the camera or its near plane comes within 0.5 of a card, if a card
+pierces the stage, or if the travel no longer shows the field. The near plane
+is 0.02.
+
 ## What a bot should not do
 
 Do not reconstruct this starter from memory or from `docs/DRAFTSKILLSETUP.md`
