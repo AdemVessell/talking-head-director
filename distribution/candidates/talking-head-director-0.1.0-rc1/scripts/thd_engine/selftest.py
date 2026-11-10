@@ -152,7 +152,7 @@ def check(plan, tl, out, report, a, secs, extra=()):
     return 0 if ok else 1
 
 
-def run(jobs=8):
+def run(jobs=3):
     t0 = time.time()
     d = CACHE / "selftest"
     shutil.rmtree(d, ignore_errors=True); d.mkdir(parents=True)

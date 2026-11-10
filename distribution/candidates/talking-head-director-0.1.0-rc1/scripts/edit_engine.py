@@ -19,7 +19,7 @@ Run it through scripts/thd, which picks the Python that has the engine's package
   edit_engine.py holds PLAN       frame strips of every silent hold on his face (burp check)
   edit_engine.py stills PLAN --at 0.5,3.2,7    proof frames + sheet
   edit_engine.py sound PLAN       voice chain + SFX + mix at -14 LUFS
-  edit_engine.py render PLAN [--jobs 8] [--proof]
+  edit_engine.py render PLAN [--jobs 3] [--proof]
   edit_engine.py assemble PLAN    review MP4 in work/out
   edit_engine.py audit PLAN [--no-asr]   pacing/loudness audit, sync, ASR of the final audio
   edit_engine.py xcheck PLAN      X pre-posting check: calls to action, captions, title, sources, claims
@@ -37,7 +37,7 @@ def main():
     ap.add_argument("cmd", choices=["doctor", "selftest", "auto", "styles", "transcribe", "autocut", "news", "prep", "align", "inspect", "edit",
                                     "holds", "stills", "sound", "render", "assemble", "audit", "xcheck", "critic", "all"])
     ap.add_argument("target", nargs="?", help="plan file (or a recording, for transcribe and autocut)")
-    ap.add_argument("--out"); ap.add_argument("--at"); ap.add_argument("--jobs", type=int, default=8)
+    ap.add_argument("--out"); ap.add_argument("--at"); ap.add_argument("--jobs", type=int, default=3)
     ap.add_argument("--proof", action="store_true"); ap.add_argument("--no-asr", action="store_true")
     ap.add_argument("--frames", help="a:b frame range for render")
     ap.add_argument("--pause", type=float, default=0.35, help="autocut: pauses longer than this become cuts")

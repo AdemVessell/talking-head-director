@@ -1,0 +1,56 @@
+# Synthetic source-aligned edit. The segment order is the story, not the source order.
+# Nothing here is a real product, a real recording, or a measured review.
+name: synthetic-passages
+source: source.mp4
+words: words_src.json
+gain_db: 0
+tail: 0.25
+tail_room_src: 6.20
+preview_segments: [test_loud, test_quiet]
+evidence_segments: [test_loud, test_quiet]
+limiter:
+  segment: explain
+  at_source: 0.30
+  ceiling_db: -1.5
+segments:
+  - id: test_loud
+    src_in: 3.20
+    src_out: 4.30
+    role: evidence
+    card: ["LOUDER", "PASSAGE"]
+    sub: "same source · one gain"
+  - id: test_quiet
+    src_in: 4.70
+    src_out: 5.80
+    role: evidence
+    card: ["QUIETER", "PASSAGE"]
+    sub: "same click · lower level"
+  - id: explain
+    src_in: 0.30
+    src_out: 2.95
+    role: speech
+  - id: hold
+    src_in: 6.20
+    src_out: 6.50
+    role: room
+    room: true
+waveform:
+  pixels_per_second: 80
+  amplitude_px: 90
+  disclaimer: "same recording · same scale · not a controlled measurement"
+  rows:
+    - {segment: test_loud, src_in: 3.20, src_out: 4.20, label: A}
+    - {segment: test_quiet, src_in: 4.70, src_out: 5.70, label: B}
+diagram:
+  title: "TWO PATHS"
+  subtitle: "simplified illustration · not to scale"
+  rows:
+    - {label: "DIRECT", note: ""}
+    - {label: "SPRUNG", note: "held off the bar"}
+  cues:
+    row1: {segment: explain, offset: 0.15}
+    pulse: {segment: explain, offset: 0.7}
+    row2: {segment: explain, offset: 1.15}
+track:
+  label: MARK
+caption_groups: auto

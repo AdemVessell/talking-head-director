@@ -221,7 +221,7 @@ def post_text(brief, segs, xm):
     return "\n".join(rows) + "\n"
 
 
-def run(recording, out=None, style="auto", brief_path=None, draft=False, jobs=8, **cli):
+def run(recording, out=None, style="auto", brief_path=None, draft=False, jobs=3, **cli):
     t0 = time.time()
     rec = Path(recording).expanduser().resolve()
     if not rec.exists():

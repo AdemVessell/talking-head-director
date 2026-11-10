@@ -13,7 +13,7 @@ is not live. Do not fetch it until that repository and tag exist.
 
 The archive SHA256 the install must have matched is:
 
-6f948859719f0e27cb5f010b3023cbbf28ff01eba9906cdc5bc8d9eca3f48ba2
+bd7d7149daecdc3a5b7dd974cc2dd4d16f2771bd8f9b7f59bd1a570d420abafa
 
 ## What you are doing
 
@@ -23,11 +23,16 @@ leaves the recording's original rhythm untouched is the failure to avoid.
 Read `docs/WORKFLOW.md` inside the unpacked engine. Use these commands, not a
 tour of the rest of the filesystem:
 
+`thd auto` drafts a cut from a transcript. A source-aligned edit is a different
+path: `docs/SOURCE_ALIGNED.md` and `examples/source-aligned/`. The story is a
+segment list, captions are the aligned words, and full render waits until the
+preview of that list is approved. The example is synthetic.
+
 ```bash
-scripts/thd styles
-scripts/thd auto RECORDING --draft
-scripts/thd auto RECORDING --brief brief.yaml --style desk
-scripts/thd xcheck PLAN
+bash scripts/thd styles
+bash scripts/thd auto RECORDING --draft
+bash scripts/thd auto RECORDING --brief brief.yaml --style desk
+bash scripts/thd xcheck PLAN
 ```
 
 `thd styles` lists the looks that ship: desk, journey, timeline, newsdesk,

@@ -115,7 +115,7 @@ def _worker(args):
     return out
 
 
-def render(plan, jobs=8, proof=False, frames=None):
+def render(plan, jobs=3, proof=False, frames=None):
     tl, _, _ = shots.prepare(plan)  # materials once, before the workers fork
     nf = int(round(tl.total * plan.fps))
     lo, hi = frames or (0, nf)

@@ -107,7 +107,14 @@ def run():
         add("FAIL", "cache", f"{cache_dir} not writable: {e}")
 
     tts = next((t for t in ("say", "espeak-ng", "espeak") if shutil.which(t)), None)
-    add("PASS" if tts else "WARN", "selftest voice", tts or "none: `thd selftest` needs espeak-ng (apt install espeak-ng)")
+    stand_in = False
+    if tts and tts != "say":
+        blob = Path(shutil.which(tts)).read_bytes()[:2500]
+        stand_in = blob.startswith(b"#!") and b"flite" in blob
+    if stand_in:
+        add("WARN", "selftest voice", f"{tts} is an ffmpeg flite stand-in, not espeak-ng. Selftest only. Not a production voice.")
+    else:
+        add("PASS" if tts else "WARN", "selftest voice", tts or "none: `thd selftest` needs espeak-ng (apt install espeak-ng), or macOS say")
     load, cores = os.getloadavg()[0], os.cpu_count() or 1
     add("WARN" if load > 0.75 * cores else "PASS", "machine",
         f"{cores} cores, load {load:.1f}" + ("  (busy: renders will run slower; see what else is running)"
