@@ -18,5 +18,6 @@ Linux install is isolated: `docs/INSTALL-linux-cpu.md` and `scripts/install-linu
 The edit itself: `docs/WORKFLOW.md`. Rights and third-party notices: `NOTICES.md`.
 
 Status: distribution candidate 0.1.0-rc1, not a release. See NOTES.md and DISTRIBUTION.txt.
-PLACEHOLDER_RELEASE_URL is not a working download. No license is granted for the
-engine source until the copyright holder chooses one.
+Owner-written code is MIT, copyright Adem Vessell (LICENSE). Third-party terms stay in NOTICES.md.
+The intended download, once the public repository exists, is recorded in DISTRIBUTION.txt.
+That URL is not live yet.

@@ -7,11 +7,13 @@ file. The original zip SHA256 is
 This file was added for the candidate. It does not change `src/`, `package.json`,
 `package-lock.json`, fonts, licenses, or scripts.
 
-Status: candidate, not a release.
+Status: candidate, not a release. The public repository is not live.
 Version label for the archive: the starter's own `1.0.0`, packed as
 `viz-explainer-starter-v1`.
-Release URL: `PLACEHOLDER_RELEASE_URL`. That string is not a working download.
-No file is fetched from it.
+Intended URL, after `AdemVessell/bot-video-engines` exists:
+`https://github.com/AdemVessell/bot-video-engines/releases/download/rc1/viz-explainer-starter-v1.tar.gz`
+That URL is not a working download until the repository and the `rc1` release exist.
+Owner-written code is MIT, copyright Adem Vessell (`LICENSE`). Remotion and the fonts are not relicensed.
 
 ## Install on a new machine
 
@@ -50,15 +52,14 @@ Fonts `public/fonts/BodoniModa.ttf` and `public/fonts/IBMPlexMono.ttf` are
 bundled with SIL OFL 1.1 texts in `LICENSES/` and again beside the files.
 IBM Plex reserves the font name "Plex". The files are unmodified. See `ASSETS.md`.
 
-The starter README says the starter code and generated assets are "yours."
-No SPDX license for that code was approved for this candidate. "Yours" is not
-treated as an open-source grant. The copyright holder still has to choose.
+Owner-written code is MIT, copyright Adem Vessell. Remotion stays under
+`LICENSES/REMOTION-LICENSE.md`. The fonts stay SIL OFL 1.1.
 
 ## What a bot should not do
 
 Do not reconstruct this starter from memory or from `docs/DRAFTSKILLSETUP.md`
 when the archive is missing. That draft describes a fallback. This candidate's
-bootstrap does not use it. If the release URL is still the placeholder, stop.
+bootstrap does not use it. The intended URL is not live. Do not fetch it.
 
 Do not upload sources or renders. Do not post. Do not call a paid voice or
 music API. Sound in this starter is the offline synth in `scripts/make-sound.mjs`.

@@ -46,7 +46,7 @@ KINDS = {
                  head="hand", head_size=96, dsize=104, dlh=132, ink=(30, 52, 118), edge="spiral", deco="ruled",
                  reveal="write", top=150, bottom=90, baseline=0.74, creases=2, tilt=0.5),
     "sticky": dict(w=600, mx=48, paper=(249, 226, 98), grain=0.02, fibres=0.02, body="marker", size=58, lh=80,
-                   head="marker", head_size=80, dsize=96, dlh=120, ink=(30, 28, 26), edge="straight", deco="sticky",
+                   head="marker", head_size=96, dsize=96, dlh=120, ink=(30, 28, 26), edge="straight", deco="sticky",
                    reveal="write", top=78, bottom=60, min_h=600, creases=0, tilt=0.7),
     "clipping": dict(w=920, mx=56, paper=(234, 228, 208), grain=0.022, fibres=0.04, body="georgia", size=44, lh=62,
                      head="didot", head_size=104, dsize=110, dlh=132, ink=(26, 24, 22), edge="torn", deco="newsprint",

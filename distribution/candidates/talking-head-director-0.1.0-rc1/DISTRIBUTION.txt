@@ -4,8 +4,12 @@ version_label: 0.1.0-rc1
 status: candidate, not a release
 source: uploaded public-port archive 01 (talking-head-bot-public), sha256 68807f28b33fc4aad6efc00f435a819cd3c6c1e84d0aa37e11a5cff815197b72
 private_repo_base_compared: e463662
-release_url: PLACEHOLDER_RELEASE_URL
-release_url_is_a_working_download: no
+intended_repository: https://github.com/AdemVessell/bot-video-engines
+intended_release_tag: rc1
+intended_asset_url: https://github.com/AdemVessell/bot-video-engines/releases/download/rc1/talking-head-director-0.1.0-rc1.tar.gz
+release_url_is_live: no
+owner_code_license: MIT
+owner_code_copyright: Adem Vessell
 
 This tree is a candidate built from the newer public port, not from the older
 private skill tree. The private development repository is not part of this
@@ -28,9 +32,12 @@ Deltas from the uploaded port, and why:
 - doctor treats a 2.8.0+cpu torch build as the 2.8.0 pin
 - autocut segment in/out times are plain floats. NumPy 2 leaves np.float64 from round(), and PyYAML 6.0.3 cannot dump that. The Mac notes say selftest passed there; this Linux run failed until the cast
 - scripts/thd and scripts/voice_chain.sh are executable. The uploaded zip did not keep that bit
+- sticky headline size 80 -> 96. The news opening title measured 13.51 px at 390 px feed width (printed as 14, under the check). After the change the same check reads 16 px and 20 px.
+- LICENSE is MIT for owner-written code, copyright Adem Vessell. Third-party notices are unchanged.
 - sidecar copyright lines for the two Apache fonts, copied from the font name tables
 - .venv/ ignored
 
-Not decided by this candidate: the copyright holder's license, the public
-repository name, or the real download URL. PLACEHOLDER_RELEASE_URL is not a
-location that serves this archive.
+Owner-written code is MIT, copyright Adem Vessell. The intended public
+repository is AdemVessell/bot-video-engines, release tag rc1. That repository
+is not live. The URL above is the intended asset location, not a working
+download.

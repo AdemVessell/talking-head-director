@@ -14,8 +14,13 @@ Two candidates:
   file-for-file, plus `CANDIDATE.md`. The starter was not rewritten.
 
 Archives, checksums, and the Grok skill prose live next to those trees after
-`distribution/pack-candidates.sh` has been run. `PLACEHOLDER_RELEASE_URL` is
-written into the bootstrap files. It is not a working download.
+`distribution/pack-candidates.sh` has been run. The intended public repository
+is `AdemVessell/bot-video-engines`, release tag `rc1`. `PUBLISHED` is `no`, so
+the bootstraps do not fetch. Those URLs are not live.
+
+`public-root/` is the README and LICENSE for the first commit of that empty
+repository. It carries no private git history. Owner-written code is MIT,
+copyright Adem Vessell.
 
 Private audit inputs (PRIVATE_DO_NOT_SHIP, the private skill wrappers, the
 real-presenter contact sheet) are not copied into either candidate.

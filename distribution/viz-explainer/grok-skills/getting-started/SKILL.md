@@ -1,6 +1,6 @@
 ---
 name: viz-explainer-getting-started
-description: Install the VizExplainer starter from its versioned archive into an empty directory and render the bundled Draft. Remotion is not MIT. PLACEHOLDER_RELEASE_URL is not a working download.
+description: Install the VizExplainer starter from its versioned archive into an empty directory and render the bundled Draft. Remotion is not MIT. The intended GitHub release is not live yet. Do not fetch it.
 ---
 
 # Getting started
@@ -9,23 +9,24 @@ This skill does not contain the starter. The starter is one versioned archive.
 Do not rebuild it from `docs/DRAFTSKILLSETUP.md` or from memory. Do not look
 for it on the author's computer.
 
-## The archive is not published yet
+## The archive is not live yet
 
-`PLACEHOLDER_RELEASE_URL` is not a working download. Do not invent a URL.
-If `RELEASE_URL` still contains `PLACEHOLDER`, stop and say the starter has
-not been published. The bootstrap script exits without fetching.
+The intended file, after `AdemVessell/bot-video-engines` exists and tag `rc1`
+is published, is:
 
-When that placeholder is replaced, the archive must be
-`viz-explainer-starter-v1.tar.gz` and its SHA256 must be exactly:
+https://github.com/AdemVessell/bot-video-engines/releases/download/rc1/viz-explainer-starter-v1.tar.gz
 
-5081b30a04413853f4ebf7893dd71d6b0b394e730b6c9ae9206d9a3b383819ce
+That URL is not a working download today. Do not fetch it. The bootstrap
+refuses while `PUBLISHED` is `no`. Do not rebuild the starter from
+`docs/DRAFTSKILLSETUP.md`.
 
-A different hash means a different file. Do not install it.
+When the release exists, the archive name is `viz-explainer-starter-v1.tar.gz`
+and its SHA256 must be exactly:
 
-The original 28-file zip this candidate was packed from is
-`bb738653b994f0e3e068a87f919087ac85e4513baede94b007d52e644e581927`.
-The candidate archive is that starter plus `CANDIDATE.md`, so its hash is the
-line above, not the original zip hash.
+22e948b5cf7cd6255a261d9356198d878ae0f04a95c353ac7854cd6d1f119fc5
+
+A different hash means a different file. Do not install it. Owner-written
+code is MIT, copyright Adem Vessell. Remotion is not MIT.
 
 ## Isolated install
 
@@ -56,10 +57,8 @@ change slightly in Remotion 5.0. Do not tell anyone that all commercial use
 is free.
 
 three.js is MIT. The bundled fonts are SIL OFL 1.1 (Bodoni Moda and IBM Plex
-Mono, name "Plex" reserved). The starter's own code has no approved SPDX
-license. The line in its README that says the code is "yours" is not a
-license grant you can rely on. Say that, and stop if the person needs a grant
-the copyright holder has not written.
+Mono, name "Plex" reserved). Owner-written starter code is MIT, copyright
+Adem Vessell. That grant does not cover Remotion or the fonts.
 
 ## Making a film
 

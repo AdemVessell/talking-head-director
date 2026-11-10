@@ -7,12 +7,13 @@ description: Cut and finish a presenter-led talking-head video with the versione
 
 Use the engine the getting-started skill installed. Do not look for it on a
 Mac, in a private repository, or in this skill's folder. If `thd doctor` has
-not been run in that install, run it. If the release URL is still
-`PLACEHOLDER_RELEASE_URL`, stop. That string is not a working download.
+not been run in that install, run it. The intended release
+https://github.com/AdemVessell/bot-video-engines/releases/download/rc1/talking-head-director-0.1.0-rc1.tar.gz
+is not live. Do not fetch it until that repository and tag exist.
 
 The archive SHA256 the install must have matched is:
 
-600a299878fdbdd1385c31ae56786515bb19a922eb23ce4d7244e0deb44dcfe5
+6f948859719f0e27cb5f010b3023cbbf28ff01eba9906cdc5bc8d9eca3f48ba2
 
 ## What you are doing
 

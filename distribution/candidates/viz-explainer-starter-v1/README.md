@@ -41,7 +41,7 @@ Pinned: remotion/@remotion/cli 4.0.541, react/react-dom 19.1.0, three 0.185.0, t
 
 ## Licensing — read before commercial use
 - **Remotion is not MIT.** Per `LICENSES/REMOTION-LICENSE.md`, the free license covers individuals, for-profit organizations with up to 3 employees, and non-profit/not-for-profit organizations; other for-profit companies must obtain a Company License. That file also notes the license will change slightly in Remotion 5.0. Read the file itself; this summary is not legal advice.
-- three.js: MIT. Fonts: SIL OFL 1.1 (texts in `LICENSES/`). Starter code and generated assets: yours.
+- three.js: MIT (`LICENSES/THREE-LICENSE.txt`). Fonts: SIL OFL 1.1 (texts in `LICENSES/`). Owner-written starter code: MIT, copyright Adem Vessell (`LICENSE`). That grant does not relicense Remotion or the fonts.
 
 ## Make your own explainer
 1. Write the idea as 3–6 beats (one claim each) in `timeline.json`; set on-screen text (hold ≥ `readHold`).

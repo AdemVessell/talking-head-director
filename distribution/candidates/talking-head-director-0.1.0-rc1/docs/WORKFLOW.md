@@ -76,5 +76,6 @@ A brief cannot yet correct a misheard word.
 
 The private art-direction notes and the Blender diorama scripts were withheld
 on purpose. The looks that ship are the styles `thd styles` prints and the
-behaviour in this file. There is no license grant for the engine source until
-the copyright holder chooses one. See `NOTICES.md`.
+behaviour in this file. Owner-written code is MIT, copyright Adem Vessell
+(`LICENSE`). Third-party terms are in `NOTICES.md`. This package does not
+include the author's recordings, private notes, or private font files.

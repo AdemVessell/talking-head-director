@@ -11,8 +11,11 @@ stays private until you change that yourself. These candidates do not.
       publish it.
 - [ ] Listen to a Linux selftest render. The synthesised sound kit has not
       been approved by ear.
-- [ ] Replace `PLACEHOLDER_RELEASE_URL` in both bootstrap `RELEASE_URL` files.
-      Until you do, both bootstraps exit and do not download.
+- [ ] Create the empty public repository `AdemVessell/bot-video-engines`
+      yourself. Do not push this private repository's history into it.
+- [ ] After a full playback review with sound, set both `PUBLISHED` files to
+      `yes` and upload tag `rc1` with the two archives. Until then the
+      bootstraps refuse to fetch. The URLs are already the intended ones.
 - [ ] Re-run `distribution/pack-candidates.sh` if the trees changed, and
       replace the SHA256 recorded in the skill files and `ENGINE.sha256`.
       A changed archive is a different file. The old hash must not stay.

@@ -5,14 +5,9 @@ It is not a license grant. It is not legal advice.
 
 ## Engine source
 
-No license has been chosen for the talking-head director source
-(scripts, docs written for this package, examples of plans the engine writes).
-The copyright holder has not approved MIT, Apache, GPL, or any other grant.
-Until they do, recipients have no license from this candidate to copy,
-modify, or ship the source. Shipping this archive inside a private review
-repository does not change that.
-
-`NOTES.md` still says "Licence and author name" are open. That remains open.
+Owner-written code and owner-written docs in this package are under the MIT
+license in `LICENSE`, copyright Adem Vessell. That grant does not cover the
+third-party items below. Their terms are unchanged.
 
 ## Fonts
 

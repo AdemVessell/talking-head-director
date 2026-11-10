@@ -1,6 +1,6 @@
 ---
 name: talking-head-director-getting-started
-description: Install the talking-head edit engine from its versioned archive into an isolated directory, then run doctor. Use when setting up the engine on a machine that does not already have it. The archive URL in this skill is PLACEHOLDER_RELEASE_URL and is not a working download.
+description: Install the talking-head edit engine from its versioned archive into an isolated directory, then run doctor. The intended GitHub release is not live yet. Do not fetch it.
 ---
 
 # Getting started
@@ -10,20 +10,25 @@ This skill does not contain the engine's files. Fetch one versioned archive,
 check its SHA256, and install that tree. Do not search a private repository,
 a private Drive, or a Mac path.
 
-## The archive is not published yet
+## The archive is not live yet
 
-`PLACEHOLDER_RELEASE_URL` is not a working download. Do not invent a URL.
-Do not guess a filename. If the release URL in `RELEASE_URL` still contains
-`PLACEHOLDER`, stop and say the package has not been published. The bootstrap
-script does the same thing and exits without fetching.
+The intended file, after `AdemVessell/bot-video-engines` exists and tag `rc1`
+is published, is:
 
-When the copyright holder replaces that placeholder with a real URL, the
-archive must be `talking-head-director-0.1.0-rc1.tar.gz` and its SHA256 must
-be exactly:
+https://github.com/AdemVessell/bot-video-engines/releases/download/rc1/talking-head-director-0.1.0-rc1.tar.gz
 
-600a299878fdbdd1385c31ae56786515bb19a922eb23ce4d7244e0deb44dcfe5
+That URL is not a working download today. Do not fetch it. The bootstrap
+refuses while `PUBLISHED` is `no`. Owner-written code in the archive is MIT,
+copyright Adem Vessell. Third-party terms are not MIT.
 
-A different hash means a different file. Do not install it.
+When the release exists, the archive name is
+`talking-head-director-0.1.0-rc1.tar.gz` and its SHA256 must be exactly:
+
+6f948859719f0e27cb5f010b3023cbbf28ff01eba9906cdc5bc8d9eca3f48ba2
+
+A different hash means a different file. Do not install it. The first prep
+downloads Whisper `medium.en` (about 1.5 GB). That is model weights, not a
+paid API. A synthetic selftest does not prove a real recording.
 
 ## Isolated install
 

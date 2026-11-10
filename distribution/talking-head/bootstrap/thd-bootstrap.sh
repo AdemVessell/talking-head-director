@@ -1,18 +1,18 @@
 #!/bin/sh
 # Fetch one versioned talking-head engine archive and check its SHA256
 # before unpacking into an isolated directory.
-# PLACEHOLDER_RELEASE_URL is not a working download. This script refuses it.
+# While PUBLISHED is not "yes", the intended GitHub URL is not fetched.
 set -eu
 here=$(CDPATH= cd -- "$(dirname "$0")" && pwd)
 url=$(tr -d '[:space:]' < "$here/RELEASE_URL")
 version=$(tr -d '[:space:]' < "$here/VERSION")
-case "$url" in
-  *PLACEHOLDER*|"" )
-    echo "thd-bootstrap: RELEASE_URL is PLACEHOLDER_RELEASE_URL." >&2
-    echo "That is not a working download. No public file is being fetched." >&2
-    exit 2
-    ;;
-esac
+published=$(tr -d '[:space:]' < "$here/PUBLISHED")
+if [ "$published" != "yes" ]; then
+  echo "thd-bootstrap: the intended archive is not live." >&2
+  echo "Intended URL (do not fetch; the repository is not confirmed):" >&2
+  echo "  $url" >&2
+  exit 2
+fi
 if [ -f "$here/ENGINE.sha256" ]; then sumfile=$here/ENGINE.sha256; else sumfile=$here/../ENGINE.sha256; fi
 sum=$(awk 'NR==1 {print $1}' "$sumfile")
 if [ -z "$sum" ]; then
