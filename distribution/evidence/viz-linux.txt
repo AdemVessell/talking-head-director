@@ -1,0 +1,8 @@
+typecheck: pass (tsc --noEmit)
+still frame 45: out/still.png 540x676
+still frame 20: caption "Three shapes."
+still frame 90: caption "ONE ROW"
+font-test: PASS (missing font cancels render)
+Draft-master QA: PASS
+{"file":"out/Draft-master.mp4","codec":"h264","profile":"High","w":540,"h":676,"fps":30,"frames":120,"dur":4,"pix":"yuv420p","audio":"aac","LUFS":-14.6,"TP":-1.9,"decode":"clean"}
+QA PASS
